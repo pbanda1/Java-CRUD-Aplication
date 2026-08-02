@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="rootBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.algebra.humanitarnaorganizacija.controller.SearchController">
+    <top>
+        <fx:include source="menu-view.fxml" />
+    </top>
+    <center>
+        <VBox spacing="10" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
+            <children>
+                <TableView fx:id="organisationTable" prefHeight="380.0" prefWidth="880.0">
+                    <columns>
+                        <TableColumn fx:id="titleColumn" text="Title" prefWidth="140.0" />
+                        <TableColumn fx:id="yearColumn" text="Established" prefWidth="80.0" />
+                        <TableColumn fx:id="employeesColumn" text="Employees" prefWidth="80.0" />
+                        <TableColumn fx:id="budgetColumn" text="Yearly Budget" prefWidth="100.0" />
+                        <TableColumn fx:id="endGoal" text="End Goal" prefWidth="100.0" />
+                        <TableColumn fx:id="countryColumn" text="Country" prefWidth="100.0" />
+                        <TableColumn fx:id="missionColumn" text="Mission" prefWidth="100.0" />
+                        <TableColumn fx:id="volunteerColumn" text="Volunteer" prefWidth="100.0" />
+                        <TableColumn fx:id="sponsorColumn" text="Sponsor" prefWidth="100.0" />
+                        <TableColumn fx:id="campaignColumn" text="Campaign" prefWidth="100.0" />
+                    </columns>
+                </TableView>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
