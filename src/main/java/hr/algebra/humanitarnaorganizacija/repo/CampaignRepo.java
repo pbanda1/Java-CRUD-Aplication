@@ -24,9 +24,25 @@ public class CampaignRepo implements ICrud<Campaign, Integer> {
         return INSTANCE;
     }
 
-    /// SQL ////////
+    /// SQL STATEMENTS ////////
     private static final String CAMPAIGN_FIND_ALL = """
             SELECT ID, CampaignTitle, Budget,Deadline FROM Campaign
+            """;
+    private static final String CAMPAIGN_SAVE_TO_DB = """
+            INSERT INTO Campaign (CampaignTitle, Budget, Deadline) 
+            VALUES (?,?,?); 
+            """;
+    private static final String CAMPAIGN_DELETE_BY_ID = """
+            DELETE FROM Campaign
+            WHERE Campaign.ID = ?
+            """;
+    private static final String CAMPAIGN_UPDATE = """
+            UPDATE Campaign
+            SET 
+            CampaignTitle = ?, 
+            Budget = ?, 
+            Deadline = ?
+            WHERE ID = ?
             """;
 
     @Override
@@ -72,17 +88,42 @@ public class CampaignRepo implements ICrud<Campaign, Integer> {
     }
 
     @Override
-    public void save(Campaign entity) throws AppException {
-
+    public void save(Campaign entity) throws RepoException {
+        try (PreparedStatement preparedStatement = DatabaseUtil.getConnection().prepareStatement(CAMPAIGN_SAVE_TO_DB)) {
+            preparedStatement.setString(1, entity.getCampaignTitle());
+            preparedStatement.setDouble(2, entity.getBudget());
+            preparedStatement.setString(3, entity.getDeadLine());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RepoException("Can not insert Campaigns", e);
+        }
     }
 
     @Override
-    public void deleteById(Integer integer) throws AppException {
-
+    public void deleteById(Integer integer) throws RepoException {
+        try (PreparedStatement preparedStatement = DatabaseUtil.getConnection().prepareStatement(CAMPAIGN_DELETE_BY_ID)) {
+              preparedStatement.setInt(1, integer);
+              preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RepoException("Can not delete Campaign, invalid ID", e);
+        }
     }
 
     @Override
     public void update(Campaign entity) throws RepoException {
-
+        try (PreparedStatement preparedStatement = DatabaseUtil.getConnection().prepareStatement(CAMPAIGN_UPDATE)) {
+            preparedStatement.setString(1, entity.getCampaignTitle());
+            preparedStatement.setDouble(2, entity.getBudget());
+            preparedStatement.setString(3, entity.getDeadLine());
+            preparedStatement.setInt(4, entity.getID());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RepoException("Can not update Campaign, invalid ID", e);
+        }
     }
 }
+
+
+
+
+
