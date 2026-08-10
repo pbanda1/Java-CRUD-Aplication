@@ -1,5 +1,4 @@
 package hr.algebra.humanitarnaorganizacija.repo;
-import hr.algebra.humanitarnaorganizacija.exception.AppException;
 import hr.algebra.humanitarnaorganizacija.exception.RepoException;
 import hr.algebra.humanitarnaorganizacija.model.Sponsor;
 import hr.algebra.humanitarnaorganizacija.util.DatabaseUtil;
@@ -23,9 +22,25 @@ public class SponsorRepo implements ICrud<Sponsor, Integer> {
         return INSTANCE;
     }
 
-    /// SIKVEEEL ////
+    /// SQL STATEMENTS ////
+
+    public static final String SPONSOR_SAVE_TO_DB = """
+            INSERT INTO Sponsor (Name, Surname, DonatorType) 
+            VALUES (?,?,?);  
+            """;
     public static final String SPONSOR_FIND_ALL = """
             SELECT ID, Name, Surname, DonatorType FROM  Sponsor 
+            """;
+    public static final String SPONSOR_DELETE_BY_ID = """
+            DELETE FROM Sponsor 
+            WHERE Sponsor.ID = ?; 
+            """;
+    public static final String SPONSOR_UPDATE = """
+            UPDATE Sponsor SET 
+            Name = ?,
+            Surname = ?, 
+            DonatorType = ? 
+            WHERE ID = ?
             """;
 
     @Override
@@ -68,17 +83,37 @@ public class SponsorRepo implements ICrud<Sponsor, Integer> {
     };
 
     @Override
-    public void save(Sponsor entity) throws AppException {
-
+    public void save(Sponsor entity) throws RepoException {
+         try (PreparedStatement preparedStatement = DatabaseUtil.getConnection().prepareStatement(SPONSOR_SAVE_TO_DB)) {
+             preparedStatement.setString(1, entity.getName());
+             preparedStatement.setString(2, entity.getSurName());
+             preparedStatement.setString(3, entity.getDonatorType().name());
+             preparedStatement.executeUpdate();
+         } catch (SQLException e) {
+             throw new RepoException("Can not save Sponsor", e);
+         }
     }
 
     @Override
-    public void deleteById(Integer integer) throws AppException {
-
+    public void deleteById(Integer integer) throws RepoException {
+         try (PreparedStatement preparedStatement = DatabaseUtil.getConnection().prepareStatement(SPONSOR_DELETE_BY_ID)) {
+             preparedStatement.setInt(1, integer);
+             preparedStatement.executeUpdate();
+         } catch (SQLException e) {
+             throw new RepoException("Invalid ID provided, can not delete Sponsor",e);
+         }
     }
 
     @Override
     public void update(Sponsor entity) throws RepoException {
-
+         try (PreparedStatement preparedStatement = DatabaseUtil.getConnection().prepareStatement(SPONSOR_UPDATE)) {
+             preparedStatement.setString(1, entity.getName());
+             preparedStatement.setString(2, entity.getSurName());
+             preparedStatement.setString(3, entity.getDonatorType().name());
+             preparedStatement.setInt(4, entity.getID());
+             preparedStatement.executeUpdate();
+         } catch ( SQLException e) {
+             throw new RepoException("Invalid ID provided, can not update Sponsor",e);
+         }
     }
 }
