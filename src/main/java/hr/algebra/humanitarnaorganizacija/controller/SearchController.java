@@ -27,11 +27,11 @@ public class SearchController {
    @FXML
     private void initialize() {
 
-       titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-       yearColumn.setCellValueFactory(new PropertyValueFactory<>("yearEstablishment"));
-       employeesColumn.setCellValueFactory(new PropertyValueFactory<>("numOfEmployees") );
-       budgetColumn.setCellValueFactory(new PropertyValueFactory<>("yearlyBudget"));
-       endGoal.setCellValueFactory(new PropertyValueFactory<>("endGoal"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        yearColumn.setCellValueFactory(new PropertyValueFactory<>("yearEstablishment"));
+        employeesColumn.setCellValueFactory(new PropertyValueFactory<>("numOfEmployees"));
+        budgetColumn.setCellValueFactory(new PropertyValueFactory<>("yearlyBudget"));
+        endGoal.setCellValueFactory(new PropertyValueFactory<>("endGoal"));
 
 
        //vraćam cijeli Country objekt pa idem sa SimpleStringProperty jer jedino tako mogu doci do GetStateName u Country!
