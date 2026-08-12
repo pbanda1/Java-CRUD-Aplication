@@ -20,6 +20,7 @@ public class OrganisationRepo implements ICrud<Organisation, Integer> {
 
     public static OrganisationRepo getInstance() {return INSTANCE;}
 
+    /// SQL STATEMENTS
 
     private static final String ORGANISATION_FIND_ALL = """
             SELECT
@@ -58,7 +59,31 @@ public class OrganisationRepo implements ICrud<Organisation, Integer> {
             JOIN Campaign campaign ON o.CampaignID = campaign.ID
             
             """;
-
+    private static final String ORGANISATION_SAVE_TO_DB = """
+               INSERT INTO Organisation (Title, EstablishmentYear, NumOfEmployees, YearlyBudget, EndGoal, Logo, 
+                                         CountryID, MissionID, VolunteerID, SponsorID, CampaignID)
+               VALUES (?,?,?,?,?,?,?,?,?,?,?)
+               """;
+    private static final String ORGANISATION_DELETE_BY_ID = """
+            DELETE FROM Organisation 
+            WHERE ID = ?; 
+            """;
+    private static final String ORGANISATION_UPDATE = """
+            UPDATE Organisation 
+                SET 
+                    Title = ?, 
+                    EstablishmentYear = ?, 
+                    NumOfEmployees = ?, 
+                    YearlyBudget = ?,
+                    EndGoal = ?, 
+                    Logo = ?,
+                    CountryID = ?,
+                    MissionID = ?,
+                    VolunteerID = ?,
+                    SponsorID = ?,
+                    CampaignID = ?
+            WHERE Organisation.ID = ?
+            """;
 
     @Override
     public List<Organisation> findAll() {
@@ -127,17 +152,58 @@ public class OrganisationRepo implements ICrud<Organisation, Integer> {
     }
 
     @Override
-    public void save(Organisation entity) throws AppException {
+    public void save(Organisation entity) throws RepoException {
+         try (PreparedStatement preparedStatement  = DatabaseUtil.getConnection().prepareStatement(ORGANISATION_SAVE_TO_DB)) {
+             preparedStatement.setString(1, entity.getTitle());
+             preparedStatement.setInt(2, entity.getYearEstablishment());
+             preparedStatement.setInt(3, entity.getNumOfEmployees());
+             preparedStatement.setDouble(4, entity.getYearlyBudget());
+             preparedStatement.setString(5, entity.getEndGoal());
+             preparedStatement.setString(6, entity.getLogo());
 
+             preparedStatement.setInt(7, entity.getCountry().getID());
+             preparedStatement.setInt(8, entity.getMission().getID());
+             preparedStatement.setInt(9, entity.getVolunteer().getID());
+             preparedStatement.setInt(10, entity.getSponsor().getID());
+             preparedStatement.setInt(11, entity.getCampaign().getID());
+
+             preparedStatement.executeUpdate();
+         } catch (SQLException e) {
+             throw new RepoException("Can not save Organisation", e);
+         }
     }
 
     @Override
-    public void deleteById(Integer integer) throws AppException {
-
+    public void deleteById(Integer integer) throws RepoException {
+             try (PreparedStatement preparedStatement = DatabaseUtil.getConnection().prepareStatement(ORGANISATION_DELETE_BY_ID)) {
+                 preparedStatement.setInt(1, integer);
+                 preparedStatement.executeUpdate();
+             } catch (SQLException e) {
+                 throw new RepoException("Invalid ID sent! Can not delete Organisation", e);
+             }
     }
 
     @Override
     public void update(Organisation entity) throws RepoException {
+         try (PreparedStatement preparedStatement = DatabaseUtil.getConnection().prepareStatement(ORGANISATION_UPDATE)) {
+             preparedStatement.setString(1, entity.getTitle());
+             preparedStatement.setInt(2, entity.getYearEstablishment());
+             preparedStatement.setInt(3, entity.getNumOfEmployees());
+             preparedStatement.setDouble(4, entity.getYearlyBudget());
+             preparedStatement.setString(5, entity.getEndGoal());
+             preparedStatement.setString(6, entity.getLogo());
 
+             preparedStatement.setInt(7, entity.getCountry().getID());
+             preparedStatement.setInt(8, entity.getMission().getID());
+             preparedStatement.setInt(9, entity.getVolunteer().getID());
+             preparedStatement.setInt(10, entity.getSponsor().getID());
+             preparedStatement.setInt(11, entity.getCampaign().getID());
+
+             preparedStatement.setInt(12, entity.getID());
+
+             preparedStatement.executeUpdate();
+         } catch (SQLException e) {
+             throw new RepoException("Can not update Organisation", e);
+         }
     }
 }
