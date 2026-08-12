@@ -1,19 +1,21 @@
 package hr.algebra.humanitarnaorganizacija.controller;
-
 import hr.algebra.humanitarnaorganizacija.model.Organisation;
 import hr.algebra.humanitarnaorganizacija.repo.OrganisationRepo;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class SearchController {
+
+public class AdminController {
 
     @FXML
-    private TableView<Organisation> organisationTable;
+    private TableView<Organisation> adminOrganisationTable;
     @FXML
     private TableColumn<Organisation, String> titleColumn;
     @FXML
@@ -36,16 +38,20 @@ public class SearchController {
     private TableColumn<Organisation, String> campaignColumn;
 
     @FXML
-    private void initialize() {
+    private Button addButton;
+    @FXML
+    private Button editButton;
+    @FXML
+    private Button deleteButton;
 
+
+    @FXML
+    private void initialize() {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         yearColumn.setCellValueFactory(new PropertyValueFactory<>("yearEstablishment"));
         employeesColumn.setCellValueFactory(new PropertyValueFactory<>("numOfEmployees"));
         budgetColumn.setCellValueFactory(new PropertyValueFactory<>("yearlyBudget"));
         endGoal.setCellValueFactory(new PropertyValueFactory<>("endGoal"));
-
-
-        //vraćam cijeli Country objekt pa idem sa SimpleStringProperty jer jedino tako mogu doci do GetStateName u Country!
 
         countryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCountry().getStateName()));
         missionColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getMission().getMissionTitle()));
@@ -57,7 +63,16 @@ public class SearchController {
     }
 
     private void loadData() {
-        ObservableList<Organisation> data = FXCollections.observableArrayList(OrganisationRepo.getInstance().findAll());
-        organisationTable.setItems(data);
+        ObservableList<Organisation> data  = FXCollections.observableArrayList(OrganisationRepo.getInstance().findAll());
+        adminOrganisationTable.setItems(data);
+    }
+
+   @FXML private void onAdd(ActionEvent actionEvent) {
+    }
+
+    @FXML private void onEdit(ActionEvent actionEvent) {
+    }
+
+    @FXML private void onDelete(ActionEvent actionEvent) {
     }
 }

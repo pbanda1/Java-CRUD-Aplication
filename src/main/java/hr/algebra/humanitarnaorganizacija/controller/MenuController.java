@@ -47,8 +47,8 @@ public class MenuController {
 
     @FXML
     private void onAdmin() {
-        // admin-view još ne postoji (Checkpoint 6) — privremeni placeholder
-        AlertUtility.showInfo("Uskoro", "Admin panel dolazi kasnije.");
+        SceneUtility.loadSceneWithLoader(
+                App.class.getResource("view/admin-view.fxml"), stage(), "Admin UI");
     }
     @FXML
     private void onLogout() {

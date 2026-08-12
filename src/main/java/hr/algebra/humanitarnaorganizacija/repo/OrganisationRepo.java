@@ -1,10 +1,9 @@
 package hr.algebra.humanitarnaorganizacija.repo;
 
-import hr.algebra.humanitarnaorganizacija.exception.AppException;
+
 import hr.algebra.humanitarnaorganizacija.exception.RepoException;
 import hr.algebra.humanitarnaorganizacija.model.*;
 import hr.algebra.humanitarnaorganizacija.util.DatabaseUtil;
-
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +15,7 @@ import java.util.Optional;
 public class OrganisationRepo implements ICrud<Organisation, Integer> {
     //SINGLETON PATTERN
     private static final OrganisationRepo INSTANCE = new OrganisationRepo();
-    private OrganisationRepo(){};
+    private OrganisationRepo(){}
 
     public static OrganisationRepo getInstance() {return INSTANCE;}
 
@@ -133,7 +132,7 @@ public class OrganisationRepo implements ICrud<Organisation, Integer> {
                 )
         );
 
-    };
+    }
 
     @Override
     public Optional<Organisation> findById(Integer id) {

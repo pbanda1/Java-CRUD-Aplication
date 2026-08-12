@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="rootBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="450.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="hr.algebra.humanitarnaorganizacija.controller.AdminController">
+    <top>
+        <fx:include source="menu-view.fxml"/>
+    </top>
+    <center>
+        <VBox spacing="10" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10"/>
+            </padding>
+            <children>
+                <TableView fx:id="adminOrganisationTable" prefHeight="380.0" prefWidth="880.0">
+                    <columns>
+                        <TableColumn fx:id="titleColumn" prefWidth="140.0" text="Title"/>
+                        <TableColumn fx:id="yearColumn" prefWidth="80.0" text="Established"/>
+                        <TableColumn fx:id="employeesColumn" prefWidth="80.0" text="Employees"/>
+                        <TableColumn fx:id="budgetColumn" prefWidth="100.0" text="Yearly Budget"/>
+                        <TableColumn fx:id="endGoal" prefWidth="100.0" text="End Goal"/>
+                        <TableColumn fx:id="countryColumn" prefWidth="100.0" text="Country"/>
+                        <TableColumn fx:id="missionColumn" prefWidth="100.0" text="Mission"/>
+                        <TableColumn fx:id="volunteerColumn" prefWidth="100.0" text="Volunteer"/>
+                        <TableColumn fx:id="sponsorColumn" prefWidth="100.0" text="Sponsor"/>
+                        <TableColumn fx:id="campaignColumn" prefWidth="100.0" text="Campaign"/>
+                    </columns>
+                </TableView>
+            </children>
+        </VBox>
+    </center>
+    <bottom>
+        <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button fx:id="addButton" mnemonicParsing="false" onAction="#onAdd" text="Add"/>
+                <Button fx:id="editButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onEdit"
+                        text="Edit"/>
+                <Button fx:id="deleteButton" layoutX="62.0" layoutY="10.0" mnemonicParsing="false" onAction="#onDelete"
+                        text="Delete"/>
+            </children>
+        </HBox>
+    </bottom>
+</BorderPane>
