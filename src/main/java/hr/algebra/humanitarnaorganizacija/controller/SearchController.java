@@ -76,7 +76,8 @@ public class SearchController {
         organisationTable.setItems(FXCollections.observableArrayList(organisations)); // wrapper oko te liste
     }
 
-    public void onSearchButtonClick(ActionEvent actionEvent) {
+    @FXML
+    private void onSearchButtonClick(ActionEvent actionEvent) {
         String searchTerm = searchFieldText.getText().trim().toLowerCase();
         //search reset
         if (searchTerm.isBlank()) {
