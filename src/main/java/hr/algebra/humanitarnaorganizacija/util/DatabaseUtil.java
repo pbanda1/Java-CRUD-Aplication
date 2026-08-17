@@ -48,8 +48,8 @@ public final class DatabaseUtil {
 
     public static void initSchema(Connection conn) throws Exception {
         execSQL(conn);
-        System.out.println("Databnase initialized");
-        ;
+        System.out.println(" ***Database initialized***");
+
     }
 
 

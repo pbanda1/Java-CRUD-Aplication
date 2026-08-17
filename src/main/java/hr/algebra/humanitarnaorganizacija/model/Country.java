@@ -1,5 +1,7 @@
 package hr.algebra.humanitarnaorganizacija.model;
 
+import java.util.Objects;
+
 public class Country implements Identifiable {
 
     private int ID;
@@ -36,5 +38,22 @@ public class Country implements Identifiable {
         this.stateName = stateName;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Country country)) return false;
+        return ID == country.ID;
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(ID);
+    }
+
+    @Override
+    public String toString() {
+        return "Country{" +
+                ", stateName='" + stateName + '\'' +
+                '}';
+    }
 }

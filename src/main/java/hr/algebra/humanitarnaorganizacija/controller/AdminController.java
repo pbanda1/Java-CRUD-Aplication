@@ -1,19 +1,39 @@
 package hr.algebra.humanitarnaorganizacija.controller;
+
+import hr.algebra.humanitarnaorganizacija.App;
+import hr.algebra.humanitarnaorganizacija.exception.RepoException;
 import hr.algebra.humanitarnaorganizacija.model.Organisation;
 import hr.algebra.humanitarnaorganizacija.repo.OrganisationRepo;
+import hr.algebra.humanitarnaorganizacija.util.AlertUtility;
+import hr.algebra.humanitarnaorganizacija.util.SceneUtility;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+
+import java.util.concurrent.ThreadPoolExecutor;
 
 
 public class AdminController {
 
+    /// 4 STAGE RETRIEVAL /////
+    @FXML
+    private BorderPane rootBorderPane;
+
+    private Stage stage() {
+        return (Stage) rootBorderPane.getScene().getWindow();
+    }
+
+    /// VARIABLE  //
     @FXML
     private TableView<Organisation> adminOrganisationTable;
     @FXML
@@ -63,16 +83,50 @@ public class AdminController {
     }
 
     private void loadData() {
-        ObservableList<Organisation> data  = FXCollections.observableArrayList(OrganisationRepo.getInstance().findAll());
+        ObservableList<Organisation> data = FXCollections.observableArrayList(OrganisationRepo.getInstance().findAll());
         adminOrganisationTable.setItems(data);
     }
 
-   @FXML private void onAdd(ActionEvent actionEvent) {
+    @FXML
+    private void onAdd(ActionEvent actionEvent) {
+        SceneUtility.loadSceneWithLoader(
+                App.class.getResource("view/manage-view.fxml"), stage(), "Manage UI");
+
     }
 
-    @FXML private void onEdit(ActionEvent actionEvent) {
+
+    @FXML
+    private void onEdit(ActionEvent actionEvent) {
+        Organisation selectedOrg = adminOrganisationTable.getSelectionModel().getSelectedItem();
+        if (selectedOrg == null) {
+            AlertUtility.showError("No selection", "Please select an Organisation");
+            return;
+        }
+        FXMLLoader loader = SceneUtility.loadSceneWithLoader(
+                App.class.getResource("view/manage-view.fxml"), stage(), "Manage UI");
+        ManageController controller = loader.getController();
+        controller.setOrganisationToEdit(selectedOrg);
     }
 
-    @FXML private void onDelete(ActionEvent actionEvent) {
+    @FXML
+    private void onDelete(ActionEvent actionEvent) {
+        Organisation selectedOrg = adminOrganisationTable.getSelectionModel().getSelectedItem();
+        if (selectedOrg == null) {
+            AlertUtility.showError("No selection", "Please select an valid organisation");
+            return;
+        }
+        try {
+            OrganisationRepo.getInstance().deleteById(selectedOrg.getID());
+            AlertUtility.showInfo("Organisation", selectedOrg.toString() + " deleted ");
+            //refresh tablice
+            loadData();
+        } catch (RepoException e) {
+            AlertUtility.showError("Error whilst trying to delete Org", e.getMessage());
+        }
+
     }
+
+    ;
 }
+
+
