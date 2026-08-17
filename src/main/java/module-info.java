@@ -9,6 +9,7 @@ module hr.algebra.humanitarnaorganizacija {
     requires jdk.jshell;
     requires java.desktop;
     requires com.h2database;
+    requires org.slf4j;
 
 
     opens hr.algebra.humanitarnaorganizacija to javafx.fxml;

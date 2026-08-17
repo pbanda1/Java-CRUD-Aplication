@@ -7,14 +7,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
 public class App extends Application {
     @Override
     public void init() throws Exception {
         var conn = DatabaseUtil.getConnection();
         DatabaseUtil.initSchema(conn);
+
     }
 
     @Override
