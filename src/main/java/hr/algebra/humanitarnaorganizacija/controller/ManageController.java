@@ -81,6 +81,7 @@ public class ManageController {
 
     }
 
+    //public metoda jer je poziva druga klasa  a ne @FXML Loader refleksijom
     public void setOrganisationToEdit(Organisation org) {
         this.editingOrganisation = org;
 
@@ -138,7 +139,7 @@ public class ManageController {
         ///CHECK FOR INTEGERS END  //////
 
 
-        //povlačenje vrijednosti iz combosa
+        ///povlačenje vrijednosti iz combosa
         Country selectedCountry = countryComboBox.getValue();
         Mission selectedMission = missionComboBox.getValue();
         Volunteer selectedVolunteer = volunteerComboBox.getValue();

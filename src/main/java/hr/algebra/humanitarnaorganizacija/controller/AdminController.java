@@ -113,7 +113,7 @@ public class AdminController {
         }
         try {
             OrganisationRepo.getInstance().deleteById(selectedOrg.getID());
-            AlertUtility.showInfo("Organisation", selectedOrg.toString() + " deleted ");
+            AlertUtility.showInfo("Organisation", selectedOrg.toString() + " deleted");
             //refresh tablice
             loadData();
         } catch (RepoException e) {

@@ -5,10 +5,16 @@ import hr.algebra.humanitarnaorganizacija.repo.OrganisationRepo;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+
+import java.util.List;
 
 public class SearchController {
 
@@ -36,6 +42,15 @@ public class SearchController {
     private TableColumn<Organisation, String> campaignColumn;
 
     @FXML
+    private Button searchButton;
+    @FXML
+    private TextField searchFieldText;
+
+    //search
+    private List<Organisation> organisations;
+
+
+    @FXML
     private void initialize() {
 
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -57,7 +72,22 @@ public class SearchController {
     }
 
     private void loadData() {
-        ObservableList<Organisation> data = FXCollections.observableArrayList(OrganisationRepo.getInstance().findAll());
-        organisationTable.setItems(data);
+        organisations = OrganisationRepo.getInstance().findAll(); // postavljam listu tj punim
+        organisationTable.setItems(FXCollections.observableArrayList(organisations)); // wrapper oko te liste
+    }
+
+    public void onSearchButtonClick(ActionEvent actionEvent) {
+        String searchTerm = searchFieldText.getText().trim().toLowerCase();
+        //search reset
+        if (searchTerm.isBlank()) {
+            organisationTable.setItems(FXCollections.observableArrayList(organisations));
+            return;
+        }
+        List<Organisation> filtered =
+                organisations.stream().filter(
+                                o -> o.getTitle().toLowerCase().contains(searchTerm)
+                                        || o.getEndGoal().toLowerCase().contains(searchTerm) || o.getCountry().getStateName().toLowerCase().contains(searchTerm)).toList();
+
+        organisationTable.setItems(FXCollections.observableArrayList(filtered));
     }
 }
