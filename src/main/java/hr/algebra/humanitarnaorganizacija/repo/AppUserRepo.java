@@ -4,6 +4,8 @@ import hr.algebra.humanitarnaorganizacija.exception.AppException;
 import hr.algebra.humanitarnaorganizacija.exception.RepoException;
 import hr.algebra.humanitarnaorganizacija.model.AppUser;
 import hr.algebra.humanitarnaorganizacija.util.DatabaseUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +13,8 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class AppUserRepo {
+
+    private static final Logger log = LoggerFactory.getLogger(AppUserRepo.class);
 
     /*singleton - static keyword - objekt se stvara samo jedanput u trenutku kad JVM ucita klasu = EagerSingleton*/
     /*instance je single object stvoren pri učitavanju klase*/
@@ -64,7 +68,9 @@ public class AppUserRepo {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error while finding User", e);
+            String msg = "Error while finding User";
+            log.error(msg, e);
+            throw new RepoException(msg, e);
         }
         return Optional.empty();
     }
@@ -81,7 +87,9 @@ public class AppUserRepo {
             statement.setString(5, appUser.getRole().name());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RepoException("Error whilst adding user", e);
+            String msg = "Error whilst adding user";
+            log.error(msg, e);
+            throw new RepoException(msg, e);
         }
     }
 }

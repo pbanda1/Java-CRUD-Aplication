@@ -1,10 +1,11 @@
 package hr.algebra.humanitarnaorganizacija.repo;
 
-import hr.algebra.humanitarnaorganizacija.exception.AppException;
+
 import hr.algebra.humanitarnaorganizacija.exception.RepoException;
 import hr.algebra.humanitarnaorganizacija.model.Country;
 import hr.algebra.humanitarnaorganizacija.util.DatabaseUtil;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 public class CountryRepo implements ICrud<Country, Integer> {
+
+    //LOGGER MECHANISM
+    private static final Logger log = LoggerFactory.getLogger(CountryRepo.class);
     //SINGLETON PATTERN
     private static final CountryRepo INSTANCE = new CountryRepo();
 
@@ -63,7 +68,9 @@ public class CountryRepo implements ICrud<Country, Integer> {
                 countries.add(mapRow(resultSet));
             }
         } catch (SQLException e) {
-            throw new RepoException("Error while fetching Countries", e);
+            String msg = "Error while fetching Countries";
+            log.error(msg, e);
+            throw new RepoException(msg, e);
         }
         return countries;
     }
@@ -79,7 +86,9 @@ public class CountryRepo implements ICrud<Country, Integer> {
                 }
             }
         } catch (SQLException e) {
-            throw new RepoException("Error while finding Countries by ID", e);
+            String msg = "Error while finding Countries by ID";
+            log.error(msg,e);
+            throw new RepoException(msg, e);
         }
         return Optional.empty();
     }
@@ -91,7 +100,9 @@ public class CountryRepo implements ICrud<Country, Integer> {
             preparedStatement.setString(1, entity.getStateName());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RepoException("Error while Saving Coutry", e);
+            String msg = "Error while Saving Coutry";
+            log.error(msg, e);
+            throw new RepoException(msg, e);
         }
 
     }
@@ -102,7 +113,9 @@ public class CountryRepo implements ICrud<Country, Integer> {
             preparedStatement.setInt(1, integer);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RepoException("Invalid ID provided for Country deletion", e);
+            String msg = "Error whilst trying to delete Country";
+            log.error(msg,e);
+            throw new RepoException(msg, e);
         }
     }
 
@@ -113,7 +126,9 @@ public class CountryRepo implements ICrud<Country, Integer> {
             preparedStatement.setInt(2, entity.getID());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RepoException("Can not update Country, Wrong ID?", e);
+            String msg = "Can not update Country";
+            log.error(msg, e);
+            throw new RepoException(msg, e);
         }
     }
 }

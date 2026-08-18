@@ -1,9 +1,10 @@
 package hr.algebra.humanitarnaorganizacija.repo;
 
-import hr.algebra.humanitarnaorganizacija.exception.AppException;
 import hr.algebra.humanitarnaorganizacija.exception.RepoException;
 import hr.algebra.humanitarnaorganizacija.model.Campaign;
 import hr.algebra.humanitarnaorganizacija.util.DatabaseUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class CampaignRepo implements ICrud<Campaign, Integer> {
+
+    /// LOGGER MECHANISM ////
+    private static final Logger log = LoggerFactory.getLogger(CampaignRepo.class);
 
     /// SINGLETON  ////////
     private static final CampaignRepo INSTANCE = new CampaignRepo();
@@ -55,7 +59,9 @@ public class CampaignRepo implements ICrud<Campaign, Integer> {
             }
 
         } catch (SQLException e) {
-            throw new RepoException("Can not find Campaigns", e);
+            String msg = "Can not find Campaigns";
+            log.error(msg, e);
+            throw new RepoException(msg, e);
         }
         return campaigns;
     }
@@ -82,7 +88,9 @@ public class CampaignRepo implements ICrud<Campaign, Integer> {
                 }
             }
         } catch (SQLException e) {
-            throw new RepoException("Can not find Campaigns by ID", e);
+            String msg = "Can not find Campaigns by ID";
+            log.error(msg, e);
+            throw new RepoException(msg, e);
         }
         return Optional.empty();
     }
@@ -95,7 +103,9 @@ public class CampaignRepo implements ICrud<Campaign, Integer> {
             preparedStatement.setString(3, entity.getDeadLine());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RepoException("Can not insert Campaigns", e);
+            String msg = "Can not insert Campaigns";
+            log.error(msg, e);
+            throw new RepoException(msg, e);
         }
     }
 
@@ -105,7 +115,9 @@ public class CampaignRepo implements ICrud<Campaign, Integer> {
               preparedStatement.setInt(1, integer);
               preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RepoException("Can not delete Campaign, invalid ID", e);
+            String msg = "Can not delete Campaign";
+            log.error(msg, e);
+            throw new RepoException(msg, e);
         }
     }
 
@@ -118,7 +130,9 @@ public class CampaignRepo implements ICrud<Campaign, Integer> {
             preparedStatement.setInt(4, entity.getID());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RepoException("Can not update Campaign, invalid ID", e);
+            String msg = "Can not update Campaign";
+            log.error(msg, e);
+            throw new RepoException(msg, e);
         }
     }
 }

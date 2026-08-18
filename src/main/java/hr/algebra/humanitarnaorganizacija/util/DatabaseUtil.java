@@ -4,10 +4,16 @@ package hr.algebra.humanitarnaorganizacija.util;
 import java.sql.DriverManager; //otvara vezu prema bazi
 import java.sql.Connection; //veza ili cijev prema bazi
 import java.sql.Statement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 //EAGER SINGLETON
 public final class DatabaseUtil {
+
+    ///LOGGER////
+
+    private static final Logger log = LoggerFactory.getLogger(DatabaseUtil.class);
 
     private static final String URL = "jdbc:h2:./HumanitarianDB;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE"; //standard za baze u Javi, H2 baza, ./ Datoteka u rootu
     private static final String USERNAME = "sa";
@@ -20,6 +26,7 @@ public final class DatabaseUtil {
         try {
             INSTANCE = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (Exception e) {
+            log.error("Neuspjelo spajanje na bazu", e);
             throw new RuntimeException(e);
         }
     }
@@ -48,7 +55,7 @@ public final class DatabaseUtil {
 
     public static void initSchema(Connection conn) throws Exception {
         execSQL(conn);
-        System.out.println(" ***Database initialized***");
+        log.info("Database initialised");
 
     }
 

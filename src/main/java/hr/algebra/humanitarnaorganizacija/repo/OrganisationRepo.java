@@ -4,6 +4,8 @@ package hr.algebra.humanitarnaorganizacija.repo;
 import hr.algebra.humanitarnaorganizacija.exception.RepoException;
 import hr.algebra.humanitarnaorganizacija.model.*;
 import hr.algebra.humanitarnaorganizacija.util.DatabaseUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +15,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class OrganisationRepo implements ICrud<Organisation, Integer> {
+    /// LOGGING MECHANISM ////
+    private static final Logger log = LoggerFactory.getLogger(OrganisationRepo.class);
+
     //SINGLETON PATTERN
     private static final OrganisationRepo INSTANCE = new OrganisationRepo();
     private OrganisationRepo(){}
@@ -93,7 +98,9 @@ public class OrganisationRepo implements ICrud<Organisation, Integer> {
                 organisation.add(mapRow(resultSet));
             }
         } catch (SQLException e) {
-            throw new RepoException("Error while searching organisations", e);
+            String msg = "Error while searching organisations";
+            log.error(msg, e);
+            throw new RepoException(msg, e);
         }
         return organisation;
     }
@@ -145,7 +152,9 @@ public class OrganisationRepo implements ICrud<Organisation, Integer> {
                 }
             }
         } catch (SQLException e) {
-            throw new RepoException("Error while fetching Organisations by id", e);
+            String msg = "Error while fetching Organisations by ID";
+            log.error(msg, e);
+            throw new RepoException(msg, e);
         }
         return Optional.empty();
     }
@@ -168,7 +177,9 @@ public class OrganisationRepo implements ICrud<Organisation, Integer> {
 
              preparedStatement.executeUpdate();
          } catch (SQLException e) {
-             throw new RepoException("Can not save Organisation", e);
+             String msg = "Can not save Organisation";
+             log.error(msg,e);
+             throw new RepoException(msg, e);
          }
     }
 
@@ -178,7 +189,9 @@ public class OrganisationRepo implements ICrud<Organisation, Integer> {
                  preparedStatement.setInt(1, integer);
                  preparedStatement.executeUpdate();
              } catch (SQLException e) {
-                 throw new RepoException("Invalid ID sent! Can not delete Organisation", e);
+                 String msg = "Invalid ID sent! Can not delete Organisation";
+                 log.error(msg, e);
+                 throw new RepoException(msg, e);
              }
     }
 
@@ -202,7 +215,9 @@ public class OrganisationRepo implements ICrud<Organisation, Integer> {
 
              preparedStatement.executeUpdate();
          } catch (SQLException e) {
-             throw new RepoException("Can not update Organisation", e);
+             String msg = "Can not update Organisation";
+             log.error(msg, e);
+             throw new RepoException(msg, e);
          }
     }
 }

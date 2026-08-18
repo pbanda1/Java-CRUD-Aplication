@@ -5,6 +5,7 @@ import hr.algebra.humanitarnaorganizacija.exception.RepoException;
 import hr.algebra.humanitarnaorganizacija.model.Organisation;
 import hr.algebra.humanitarnaorganizacija.repo.OrganisationRepo;
 import hr.algebra.humanitarnaorganizacija.util.AlertUtility;
+import hr.algebra.humanitarnaorganizacija.util.DatabaseUtil;
 import hr.algebra.humanitarnaorganizacija.util.SceneUtility;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -18,8 +19,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AdminController {
+
+
 
     /// 4 STAGE RETRIEVAL /////
     @FXML

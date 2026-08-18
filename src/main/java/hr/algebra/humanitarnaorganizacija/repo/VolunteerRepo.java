@@ -1,9 +1,10 @@
 package hr.algebra.humanitarnaorganizacija.repo;
 
-import hr.algebra.humanitarnaorganizacija.exception.AppException;
 import hr.algebra.humanitarnaorganizacija.exception.RepoException;
 import hr.algebra.humanitarnaorganizacija.model.Volunteer;
 import hr.algebra.humanitarnaorganizacija.util.DatabaseUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +15,8 @@ import java.util.Optional;
 
 public class VolunteerRepo implements ICrud<Volunteer, Integer> {
 
+    /// LOGGING MECHANISM ////
+    private static final Logger log = LoggerFactory.getLogger(VolunteerRepo.class);
     /// SINGLETON //////////
     private static final VolunteerRepo INSTANCE = new VolunteerRepo();
 
@@ -56,7 +59,9 @@ public class VolunteerRepo implements ICrud<Volunteer, Integer> {
                 volunteers.add(mapRow(resultSet));
             }
         } catch (SQLException e) {
-            throw new RepoException("Error while fetching Volunteers", e);
+            String msg = "Error while fetching Volunteers";
+            log.error(msg, e);
+            throw new RepoException(msg, e);
         }
         return volunteers;
     }
@@ -83,7 +88,9 @@ public class VolunteerRepo implements ICrud<Volunteer, Integer> {
                 }
             }
         } catch (SQLException e) {
-            throw new RepoException("Error while finding Volunteers by ID",e);
+            String msg = "Error while finding Volunteers by ID";
+            log.error(msg, e);
+            throw new RepoException(msg,e);
         }
         return Optional.empty();
     }
@@ -98,7 +105,9 @@ public class VolunteerRepo implements ICrud<Volunteer, Integer> {
            preparedStatement.setString(5, entity.getVolunteerStatus().name());
            preparedStatement.executeUpdate();
       } catch (SQLException e) {
-          throw new RepoException("Can not save Volunteer", e);
+          String msg = "Can not save Volunteer";
+          log.error(msg,e);
+          throw new RepoException(msg, e);
       }
     }
 
@@ -109,7 +118,9 @@ public class VolunteerRepo implements ICrud<Volunteer, Integer> {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RepoException("Invalid ID provided", e);
+            String msg = "Invalid ID provided";
+            log.error(msg, e);
+            throw new RepoException(msg, e);
         }
     }
 
@@ -125,7 +136,9 @@ public class VolunteerRepo implements ICrud<Volunteer, Integer> {
                 preparedStatement.setInt(6, entity.getID());
                 preparedStatement.executeUpdate();
             } catch (SQLException e) {
-                throw new RepoException("can not update Volunteers", e);
+                String msg = "can not update Volunteers";
+                log.error(msg, e);
+                throw new RepoException(msg, e);
             }
     }
 }

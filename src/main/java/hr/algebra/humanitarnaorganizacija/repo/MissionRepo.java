@@ -1,9 +1,10 @@
 package hr.algebra.humanitarnaorganizacija.repo;
 
-import hr.algebra.humanitarnaorganizacija.exception.AppException;
 import hr.algebra.humanitarnaorganizacija.exception.RepoException;
 import hr.algebra.humanitarnaorganizacija.model.Mission;
 import hr.algebra.humanitarnaorganizacija.util.DatabaseUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class MissionRepo implements ICrud<Mission, Integer> {
+
+    /// LOGGING MECHANISM ////
+    private static final Logger log = LoggerFactory.getLogger(MissionRepo.class);
 
     /// SINGLETON //////////
     private static final MissionRepo INSTANCE = new MissionRepo();
@@ -52,7 +56,9 @@ public class MissionRepo implements ICrud<Mission, Integer> {
                 missions.add(mapRow(resultSet));
             }
         } catch (SQLException e) {
-            throw new RepoException("Error while fetching Missions", e);
+            String msg = "Error while fetching Missions";
+            log.error(msg, e);
+            throw new RepoException(msg, e);
         }
         return missions;
 
@@ -77,29 +83,35 @@ public class MissionRepo implements ICrud<Mission, Integer> {
                 }
             }
         } catch (SQLException e) {
-            throw new RepoException("Error while finding Missions by ID", e);
+            String msg = "Error while finding Missions by ID";
+            log.error(msg, e);
+            throw new RepoException(msg, e);
         }
         return Optional.empty();
     }
 
     @Override
-    public void save(Mission entity) throws AppException {
+    public void save(Mission entity) throws RepoException {
         try (PreparedStatement preparedStatement = DatabaseUtil.getConnection().prepareStatement(MISSION_SAVE_TO_DB)) {
             preparedStatement.setString(1, entity.getMissionTitle());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RepoException("Can not save Mission", e);
+            String msg = "Can not save Mission";
+            log.error(msg, e);
+            throw new RepoException(msg, e);
         }
     }
 
     @Override
-    public void deleteById(Integer integer) throws AppException {
+    public void deleteById(Integer integer) throws RepoException {
         try (PreparedStatement preparedStatement = DatabaseUtil.getConnection().prepareStatement(MISSION_DELETE_BY_ID)) {
             preparedStatement.setInt(1, integer);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RepoException("Can not delete Mission, possible invalid ID", e);
+            String msg = "Can not delete Mission, possible invalid ID";
+            log.error(msg, e);
+            throw new RepoException(msg, e);
         }
     }
 
@@ -110,7 +122,9 @@ public class MissionRepo implements ICrud<Mission, Integer> {
             preparedStatement.setInt(2, entity.getID());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RepoException("Can not update Mission", e);
+            String msg = "Can not update Mission";
+            log.error(msg, e);
+            throw new RepoException(msg, e);
         }
     }
 }
