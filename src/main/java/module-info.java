@@ -10,6 +10,7 @@ module hr.algebra.humanitarnaorganizacija {
     requires java.desktop;
     requires com.h2database;
     requires org.slf4j;
+    requires java.net.http;
 
 
     opens hr.algebra.humanitarnaorganizacija to javafx.fxml;
