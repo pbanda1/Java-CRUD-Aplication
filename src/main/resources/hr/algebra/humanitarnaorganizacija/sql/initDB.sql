@@ -128,7 +128,7 @@ INSERT INTO Campaign (CampaignTitle, Budget, Deadline) VALUES
 INSERT INTO Organisation (Title, EstablishmentYear, NumOfEmployees, YearlyBudget, EndGoal, Logo, CountryID, MissionID, VolunteerID, SponsorID, CampaignID)
 VALUES
     ('The Borgen Project',2003, 200, 607000, 'We fight against child poverty', NULL,3, 1, 1, 4,6 ),
-    ('Amnesty International',1961, 3800, 350000000, 'Every human deserves to speak', NULL,1, 5, 3, 1, 2 ),
-    ('Marys Meals', 2002, 400, 65000000, 'Every Child deserves a Meal', NULL, 5, 5, 3, 5, 1),
-    ('Oxfam', 1942, 5000, 360000000, 'A just world without poverty', NULL, 1, 1, 2, 4, 5),
-    ('The Nature Conservancy', 1951, 4000, 1200000000, 'Conserve the lands and waters on which all life depends', NULL, 3, 3, 3, 1, 4)
+    ('Amnesty International',1961, 3800, 350000, 'Every human deserves to speak', NULL,1, 5, 3, 1, 2 ),
+    ('Marys Meals', 2002, 400, 650000, 'Every Child deserves a Meal', NULL, 5, 5, 3, 5, 1),
+    ('Oxfam', 1942, 5000, 3600000, 'A just world without poverty', NULL, 1, 1, 2, 4, 5),
+    ('The Nature Conservancy', 1951, 4000, 120000, 'Conserve the lands and waters on which all life depends', NULL, 3, 3, 3, 1, 4)

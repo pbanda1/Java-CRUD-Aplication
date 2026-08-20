@@ -48,6 +48,5 @@ public class HttpUtility {
             log.error(msg, e);
             throw new ApiException(msg, e);
         }
-
     }
 }

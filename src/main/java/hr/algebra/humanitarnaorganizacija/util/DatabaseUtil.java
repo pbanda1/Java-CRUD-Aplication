@@ -1,9 +1,11 @@
 package hr.algebra.humanitarnaorganizacija.util;
-
-
+import java.io.IOException;
 import java.sql.DriverManager; //otvara vezu prema bazi
 import java.sql.Connection; //veza ili cijev prema bazi
+import java.sql.SQLException;
 import java.sql.Statement;
+
+import hr.algebra.humanitarnaorganizacija.exception.DatabaseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,9 +27,10 @@ public final class DatabaseUtil {
     static {
         try {
             INSTANCE = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch (Exception e) {
-            log.error("Neuspjelo spajanje na bazu", e);
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            String msg = "Unsuccessfull connection to Database";
+            log.error(msg, e);
+            throw new DatabaseException(msg, e);
         }
     }
 
@@ -40,20 +43,25 @@ public final class DatabaseUtil {
         return INSTANCE;  // sadrzi metapodatke za bazu url , username i possword
     }
 
-    public static void execSQL(Connection conn) throws Exception {
-        String ddl = new String(DatabaseUtil.class.getResourceAsStream("/hr/algebra/humanitarnaorganizacija/sql/initDB.sql").readAllBytes());
-        //preko imena klase pogledaj resurse kao stream i pretvori u niz bajtova
-        try (Statement stmt = conn.createStatement()) { //napravi statement
-            for (String sql_ : ddl.split(";")) { // razreze cijeli tekst na niz naredbi na svakom ";"
-                String trimmedSQL = sql_.trim();
-                if (!trimmedSQL.isEmpty()) {
-                    stmt.execute(trimmedSQL); //saljem naredbe bazi CREATE, INSERT ITD
+    public static void execSQL(Connection conn) {
+        try {
+            String ddl = new String(DatabaseUtil.class.getResourceAsStream("/hr/algebra/humanitarnaorganizacija/sql/initDB.sql").readAllBytes());
+            try (Statement stmt = conn.createStatement()) { //napravi statement
+                for (String sql_ : ddl.split(";")) { // razreze cijeli tekst na niz naredbi na svakom ";"
+                    String trimmedSQL = sql_.trim();
+                    if (!trimmedSQL.isEmpty()) {
+                        stmt.execute(trimmedSQL); //saljem naredbe bazi CREATE, INSERT ITD
+                    }
                 }
             }
+        } catch (IOException | SQLException e) {
+            String msg = "Error whilst executing DDL script";
+            log.error(msg, e);
+            throw new DatabaseException(msg, e);
         }
     }
 
-    public static void initSchema(Connection conn) throws Exception {
+    public static void initSchema(Connection conn)  {
         execSQL(conn);
         log.info("Database initialised");
 
