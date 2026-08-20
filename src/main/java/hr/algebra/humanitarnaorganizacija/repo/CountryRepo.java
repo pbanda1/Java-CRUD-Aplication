@@ -30,6 +30,10 @@ public class CountryRepo implements ICrud<Country, Integer> {
 
 
     //SELECT STATEMENTS
+    private static final String COUNTRY_FIND_BY_STATENAME = """
+            SELECT ID, StateName FROM Country 
+            WHERE LOWER (TRIM(StateName)) = LOWER(TRIM(?))
+            """;
     private static final String COUNTRY_FIND_ALL = """
             SELECT ID, StateName FROM Country 
             """;
@@ -91,6 +95,35 @@ public class CountryRepo implements ICrud<Country, Integer> {
             throw new RepoException(msg, e);
         }
         return Optional.empty();
+    }
+
+    public Optional<Country> findByStateName(String stateName) {
+        if (stateName == null || stateName.isBlank()) {
+            return Optional.empty();
+        } try (PreparedStatement preparedStatement = DatabaseUtil.getConnection().prepareStatement(COUNTRY_FIND_BY_STATENAME)) {
+            preparedStatement.setString(1, stateName.trim());
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return Optional.of(mapRow(resultSet));
+                }
+            }
+        } catch (SQLException e) {
+            String msg = "Error while finding Country by name";
+            log.error(msg,e);
+            throw new RepoException(msg,e);
+        }
+        return Optional.empty();
+    }
+
+    public boolean saveIfNotExists(Country entity) {
+        if (entity == null || entity.getStateName() == null || entity.getStateName().isBlank()) {
+            return false;
+        }
+        if(findByStateName(entity.getStateName()).isPresent()) {
+            return false;    //ako već postoji stateName vrati false;
+        }
+        save(entity);
+        return true;
     }
 
     //save se odnosi na insert u bazu
