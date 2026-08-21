@@ -6,13 +6,17 @@ import hr.algebra.humanitarnaorganizacija.repo.CountryRepo;
 import hr.algebra.humanitarnaorganizacija.util.HttpUtility;
 import hr.algebra.humanitarnaorganizacija.util.JsonParserUtility;
 import javafx.concurrent.Task;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 
 public class TaskLoadStates extends Task<Integer> {
 
     /// API
     private static final String DRZAVE_API_URL = "https://countriesnow.space/api/v0.1/countries";
-
+    /// LOGGER
+    private static final Logger log = LoggerFactory.getLogger(TaskLoadStates.class);
     @Override
     protected Integer call() throws Exception {
 
@@ -41,6 +45,8 @@ public class TaskLoadStates extends Task<Integer> {
 
             if (countryRepo.saveIfNotExists(jsonCountry)) {
                 numOfNewStates++;
+                log.info("Saved new country ({}): {}", numOfNewStates, jsonCountry.getStateName());
+
             }
             //current / fullRangeStates
             updateProgress(i + 1, apiResults.size());
