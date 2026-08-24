@@ -3,6 +3,7 @@ package hr.algebra.humanitarnaorganizacija.util;
 import hr.algebra.humanitarnaorganizacija.model.AppUser;
 
 public class RoleUtility {
+
     private static AppUser currentUser;
 
     private RoleUtility() {

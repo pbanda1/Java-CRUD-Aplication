@@ -1,5 +1,7 @@
 package hr.algebra.humanitarnaorganizacija;
 
+import hr.algebra.humanitarnaorganizacija.model.Volunteer;
+import hr.algebra.humanitarnaorganizacija.repo.VolunteerRepo;
 import hr.algebra.humanitarnaorganizacija.util.DatabaseUtil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,13 +9,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 public class App extends Application {
     @Override
     public void init() throws Exception {
         var conn = DatabaseUtil.getConnection();
         DatabaseUtil.initSchema(conn);
-
     }
 
     @Override

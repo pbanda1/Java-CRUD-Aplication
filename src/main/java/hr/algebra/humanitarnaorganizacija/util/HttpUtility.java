@@ -24,7 +24,7 @@ public class HttpUtility {
     public static String fetchJson(String url) {
         try {
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(url))
+                    .uri(URI.create(url)) //objectify to JSON object
                     .timeout(Duration.ofSeconds(20))
                     .header("Accept", "application/JSON")
                     .GET()

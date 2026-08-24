@@ -1,6 +1,7 @@
 package hr.algebra.humanitarnaorganizacija.controller;
 
 import hr.algebra.humanitarnaorganizacija.App;
+import hr.algebra.humanitarnaorganizacija.service.ServiceLoadOrganisations;
 import hr.algebra.humanitarnaorganizacija.service.ServiceLoadStates;
 import hr.algebra.humanitarnaorganizacija.util.AlertUtility;
 import hr.algebra.humanitarnaorganizacija.util.RoleUtility;
@@ -18,9 +19,12 @@ public class MenuController {
 @FXML private AnchorPane rootAnchorPane;
 @FXML private MenuItem adminMenuItem;
 @FXML private MenuItem loadStatesMenuItem;
+@FXML private MenuItem loadOrganisationsXMLMenuItem;
 
 //load service for loadingStates
 private static final ServiceLoadStates loadStatesService = new ServiceLoadStates();
+//load service for LoadingOrganisations
+private static final ServiceLoadOrganisations loadOrganisationsXMLService = new ServiceLoadOrganisations();
 
     @FXML
     private void initialize() {
@@ -30,6 +34,8 @@ private static final ServiceLoadStates loadStatesService = new ServiceLoadStates
         * */
         if (!RoleUtility.isAdmin()) {
             adminMenuItem.setDisable(true);
+            loadStatesMenuItem.setDisable(true);
+            loadOrganisationsXMLMenuItem.setDisable(true);
         }
     }
 
@@ -94,6 +100,34 @@ private static final ServiceLoadStates loadStatesService = new ServiceLoadStates
             });
 
             loadStatesService.restart();
+
+    }
+
+    @FXML private void onLoadOrganisationsXML(ActionEvent actionEvent) {
+        if (loadOrganisationsXMLService.isRunning()) {
+            return;
+        }
+        loadOrganisationsXMLMenuItem.setDisable(true);
+        Alert progressAlert = AlertUtility.showInfoNonBlocking("XML import", "Loading Organisations...");
+        progressAlert.contentTextProperty().bind(loadOrganisationsXMLService.messageProperty());
+
+        //if success
+        loadOrganisationsXMLService.setOnSucceeded(event -> {
+            loadOrganisationsXMLMenuItem.setDisable(false);
+            Integer num = loadOrganisationsXMLService.getValue(); //numOfNewOrganisations
+            progressAlert.contentTextProperty().unbind();
+            progressAlert.setContentText("Import finished, new Organisations count= " + num);
+
+        });
+
+        //if fail
+        loadOrganisationsXMLService.setOnFailed(event -> {
+            loadOrganisationsXMLMenuItem.setDisable(false);
+            progressAlert.contentTextProperty().unbind();
+            progressAlert.setContentText("Error " + loadOrganisationsXMLService.getException().getMessage());
+        });
+
+        loadOrganisationsXMLService.restart();
 
     }
 }

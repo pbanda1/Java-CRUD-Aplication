@@ -57,7 +57,7 @@ public final class JsonParserUtility {
         } catch (Exception e) {
             String msg = "Error whilst parsing Json";
             log.error(msg, e);
-            throw new ApiException(msg, e);
+            throw new ApiException(msg, e); //logiram grešku i omotam u ApiExc
         }
         return countries;
     }

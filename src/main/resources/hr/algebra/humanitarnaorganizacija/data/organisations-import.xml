@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<organisations>
+    <organisation>
+        <title>Green Future Alliance</title>
+        <establishmentYear>2015</establishmentYear>
+        <numOfEmployees>50</numOfEmployees>
+        <yearlyBudget>250000</yearlyBudget>
+        <endGoal>Promote environmental sustainability</endGoal>
+        <logo></logo>
+        <country>Germany</country>
+        <mission>GreenKeepers</mission>
+        <volunteerName>Mary</volunteerName>
+        <volunteerSurname>Middleton</volunteerSurname>
+        <sponsorName>Ray</sponsorName>
+        <sponsorSurname>Dalio</sponsorSurname>
+        <campaign>No one can ban planting a tree</campaign>
+    </organisation>
+    <organisation>
+        <title>Voices Unite</title>
+        <establishmentYear>2010</establishmentYear>
+        <numOfEmployees>30</numOfEmployees>
+        <yearlyBudget>180000</yearlyBudget>
+        <endGoal>Advocate for human rights worldwide</endGoal>
+        <logo></logo>
+        <country>United Kingdom</country>
+        <mission>Human Rights</mission>
+        <volunteerName>John</volunteerName>
+        <volunteerSurname>Stockton</volunteerSurname>
+        <sponsorName>David</sponsorName>
+        <sponsorSurname>Packard</sponsorSurname>
+        <campaign>Voice for EveryOne &lt;3</campaign>
+    </organisation>
+    <organisation>
+        <title>Healthy Tomorrow</title>
+        <establishmentYear>2018</establishmentYear>
+        <numOfEmployees>25</numOfEmployees>
+        <yearlyBudget>150000</yearlyBudget>
+        <endGoal>Provide medical care to underserved communities</endGoal>
+        <logo></logo>
+        <country>Scotland</country>
+        <mission>HealthCare</mission>
+        <volunteerName>Harry</volunteerName>
+        <volunteerSurname>Weasley</volunteerSurname>
+        <sponsorName>Bill &amp; Melinda</sponsorName>
+        <sponsorSurname>Gates</sponsorSurname>
+        <campaign>Doctor in every house</campaign>
+    </organisation>
+</organisations>

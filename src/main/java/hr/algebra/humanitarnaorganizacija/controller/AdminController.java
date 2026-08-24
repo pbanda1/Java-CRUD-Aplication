@@ -5,7 +5,6 @@ import hr.algebra.humanitarnaorganizacija.exception.RepoException;
 import hr.algebra.humanitarnaorganizacija.model.Organisation;
 import hr.algebra.humanitarnaorganizacija.repo.OrganisationRepo;
 import hr.algebra.humanitarnaorganizacija.util.AlertUtility;
-import hr.algebra.humanitarnaorganizacija.util.DatabaseUtil;
 import hr.algebra.humanitarnaorganizacija.util.SceneUtility;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -19,11 +18,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AdminController {
-
 
 
     /// 4 STAGE RETRIEVAL /////
@@ -90,11 +86,8 @@ public class AdminController {
 
     @FXML
     private void onAdd(ActionEvent actionEvent) {
-        SceneUtility.loadSceneWithLoader(
-                App.class.getResource("view/manage-view.fxml"), stage(), "Manage UI");
-
+        SceneUtility.loadSceneWithLoader(App.class.getResource("view/manage-view.fxml"), stage(), "Manage UI");
     }
-
 
     @FXML
     private void onEdit(ActionEvent actionEvent) {
@@ -103,8 +96,7 @@ public class AdminController {
             AlertUtility.showError("No selection", "Please select an Organisation");
             return;
         }
-        FXMLLoader loader = SceneUtility.loadSceneWithLoader(
-                App.class.getResource("view/manage-view.fxml"), stage(), "Manage UI");
+        FXMLLoader loader = SceneUtility.loadSceneWithLoader(App.class.getResource("view/manage-view.fxml"), stage(), "Manage UI");
         ManageController controller = loader.getController();
         controller.setOrganisationToEdit(selectedOrg);
     }
@@ -124,9 +116,7 @@ public class AdminController {
         } catch (RepoException e) {
             AlertUtility.showError("Error whilst trying to delete Org", e.getMessage());
         }
-
     }
-
 }
 
 

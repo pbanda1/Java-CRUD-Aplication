@@ -17,15 +17,17 @@ public class TaskLoadStates extends Task<Integer> {
     private static final String DRZAVE_API_URL = "https://countriesnow.space/api/v0.1/countries";
     /// LOGGER
     private static final Logger log = LoggerFactory.getLogger(TaskLoadStates.class);
+
     @Override
     protected Integer call() throws Exception {
 
         int numOfNewStates = 0;
+
         updateMessage("Collecting States from remote API..");
 
         CountryRepo countryRepo = CountryRepo.getInstance();
 
-        //json fetch
+        //JSON fetch -> main dio taska -> stop screen freezing by fetching via task on background thread!
         String statesJSON = HttpUtility.fetchJson(DRZAVE_API_URL);
         updateMessage("Parsing JSON");
 
@@ -37,7 +39,7 @@ public class TaskLoadStates extends Task<Integer> {
 
         //loop over api results
         for (int i = 0; i < apiResults.size(); i++) {
-            if(isCancelled()){
+            if (isCancelled()) {
                 break;
             }
             //def country
@@ -50,7 +52,7 @@ public class TaskLoadStates extends Task<Integer> {
             }
             //current / fullRangeStates
             updateProgress(i + 1, apiResults.size());
-            updateMessage("Loaded " + (i+1) + "/" + apiResults.size());
+            updateMessage("Loaded " + (i + 1) + "/" + apiResults.size());
         }
         updateMessage("Loading finished!");
         return numOfNewStates;

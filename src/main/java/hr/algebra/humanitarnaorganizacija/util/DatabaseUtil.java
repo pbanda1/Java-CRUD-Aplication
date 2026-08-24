@@ -27,8 +27,9 @@ public final class DatabaseUtil {
     static {
         try {
             INSTANCE = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            log.info("Instance found!");
         } catch (SQLException e) {
-            String msg = "Unsuccessfull connection to Database";
+            String msg = "Unsuccessful connection to Database";
             log.error(msg, e);
             throw new DatabaseException(msg, e);
         }
