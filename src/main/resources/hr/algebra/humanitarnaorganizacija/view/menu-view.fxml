@@ -16,6 +16,7 @@
                     <MenuItem text="Tables" onAction="#onTables"/>
                     <MenuItem fx:id="loadStatesMenuItem" text="Load States API" onAction="#onLoadStates"/>
                     <MenuItem fx:id="loadOrganisationsXMLMenuItem" text="Load Organisations from XML" onAction="#onLoadOrganisationsXML"/>
+                    <MenuItem fx:id="exportOrganisationsXMLMenuItem" text="Export Organisations to XML" onAction="#onExportOrganisationsXML"/>
                     <MenuItem fx:id="adminMenuItem" text="Admin" onAction="#onAdmin"/>
                     <MenuItem text="Log out" onAction="#onLogout"/>
                     <MenuItem text="About" onAction="#AboutUs"/>

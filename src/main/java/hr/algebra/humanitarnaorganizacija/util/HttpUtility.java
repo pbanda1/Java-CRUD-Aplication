@@ -11,7 +11,7 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 
 
-public class HttpUtility {
+public final class HttpUtility {
 
     private static final Logger log = LoggerFactory.getLogger(HttpUtility.class);
 

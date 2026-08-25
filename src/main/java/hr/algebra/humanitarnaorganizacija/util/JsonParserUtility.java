@@ -24,12 +24,14 @@ public final class JsonParserUtility {
         List<Country> countries = new ArrayList<>();
         try {
             JsonNode root = MAPPER.readTree(json);
+
+          //TODO: PROVJERI JE LI OVO DOBRA LOGIKA, ŠTO AKO NEMA ERRORA?
             if(!root.has("error")) {
                 String msg = "API hasn't returned expected JSON shape";
                 log.error(msg);
                 throw new ApiException(msg);
             }
-
+            //{"error": false,"data": [...]}
             boolean error = root.path("error").asBoolean(false);
 
             if (error) {

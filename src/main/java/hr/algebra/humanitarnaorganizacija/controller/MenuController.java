@@ -1,6 +1,7 @@
 package hr.algebra.humanitarnaorganizacija.controller;
 
 import hr.algebra.humanitarnaorganizacija.App;
+import hr.algebra.humanitarnaorganizacija.service.ServiceExportOrganisations;
 import hr.algebra.humanitarnaorganizacija.service.ServiceLoadOrganisations;
 import hr.algebra.humanitarnaorganizacija.service.ServiceLoadStates;
 import hr.algebra.humanitarnaorganizacija.util.AlertUtility;
@@ -10,8 +11,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.MenuItem;
+
+import java.io.File;
 
 
 public class MenuController {
@@ -20,11 +24,14 @@ public class MenuController {
 @FXML private MenuItem adminMenuItem;
 @FXML private MenuItem loadStatesMenuItem;
 @FXML private MenuItem loadOrganisationsXMLMenuItem;
+@FXML private MenuItem exportOrganisationsXMLMenuItem;
 
 //load service for loadingStates
 private static final ServiceLoadStates loadStatesService = new ServiceLoadStates();
 //load service for LoadingOrganisations
 private static final ServiceLoadOrganisations loadOrganisationsXMLService = new ServiceLoadOrganisations();
+//export service for XML export
+private static final ServiceExportOrganisations  exportOrganisationXMLService = new ServiceExportOrganisations();
 
     @FXML
     private void initialize() {
@@ -36,6 +43,7 @@ private static final ServiceLoadOrganisations loadOrganisationsXMLService = new 
             adminMenuItem.setDisable(true);
             loadStatesMenuItem.setDisable(true);
             loadOrganisationsXMLMenuItem.setDisable(true);
+            exportOrganisationsXMLMenuItem.setDisable(true);
         }
     }
 
@@ -103,6 +111,11 @@ private static final ServiceLoadOrganisations loadOrganisationsXMLService = new 
 
     }
 
+
+    public void setAdminMenuItem(MenuItem adminMenuItem) {
+
+    }
+
     @FXML private void onLoadOrganisationsXML(ActionEvent actionEvent) {
         if (loadOrganisationsXMLService.isRunning()) {
             return;
@@ -128,6 +141,25 @@ private static final ServiceLoadOrganisations loadOrganisationsXMLService = new 
         });
 
         loadOrganisationsXMLService.restart();
+
+    }
+
+    @FXML private void onExportOrganisationsXML(ActionEvent actionEvent) {
+        if(exportOrganisationXMLService.isRunning()) {
+            return;
+        }
+        //postavi FileChooser
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export Organisations");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML files", "*.xml"));
+        fileChooser.setInitialFileName("organisations-export.xml");
+
+        File file = fileChooser.showSaveDialog(stage());
+        //TODO PROĆI OVO JOŠ JEDNOM DO ROOTA
+        if(file == null) {
+            return;
+        }
+        exportOrganisationXMLService.setPath(file.getAbsolutePath());
 
     }
 }

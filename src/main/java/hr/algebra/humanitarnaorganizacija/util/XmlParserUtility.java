@@ -28,7 +28,7 @@ public final class XmlParserUtility {
         //def container type to persist Organisations
         List<Organisation> organisations = new ArrayList<>();
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(); //create XML parser instance
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
             factory.setExpandEntityReferences(false);
             Document document = factory.newDocumentBuilder().parse(xml); //create xml parser
