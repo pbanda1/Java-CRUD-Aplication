@@ -10,6 +10,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public final class XmlWriterExportUtility {
@@ -24,7 +25,7 @@ public final class XmlWriterExportUtility {
 
 
     public static void export_Organisations(List<Organisation> organisations, String path) {
-        try (FileWriter fWriter = new FileWriter(path)) {
+        try (FileWriter fWriter = new FileWriter(path, StandardCharsets.UTF_8)) {
             XMLStreamWriter writer = XMLOutputFactory.newInstance().createXMLStreamWriter(fWriter);
             writer.writeStartDocument("UTF-8", "1.0");
             writer.writeStartElement("organisations");
@@ -37,7 +38,6 @@ public final class XmlWriterExportUtility {
                 writeElement(writer, "yearlyBudget", String.valueOf(o.getYearlyBudget()));
                 writeElement(writer, "endGoal", o.getEndGoal());
                 writeElement(writer, "logo", o.getLogo());
-
                 writeElement(writer, "country", o.getCountry().getStateName());
                 writeElement(writer, "mission", o.getMission().getMissionTitle());
                 writeElement(writer, "volunteerName", o.getVolunteer().getName());

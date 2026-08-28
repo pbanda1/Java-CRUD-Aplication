@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.algebra.humanitarnaorganizacija.controller.AssignController">
+    <top><fx:include source="menu-view.fxml" /></top>
+   <center>
+      <HBox alignment="CENTER" blendMode="DARKEN" style="-fx-background-color: white;">
+         <children>
+            <VBox prefWidth="430" spacing="5">
+               <children>
+                  <Label text="Volunteers ( drag )" />
+                  <VBox prefWidth="430" spacing="5">
+                     <children>
+                        <TableView fx:id="volunteerTable" prefHeight="400.0" prefWidth="500.0">
+                          <columns>
+                            <TableColumn fx:id="volunteerNameColumn" prefWidth="75.0" text="Name" />
+                            <TableColumn fx:id="volunteerSurnameColumn" prefWidth="100.0" text="Surname" />
+                              <TableColumn fx:id="volunteerSpecialisationColumn" prefWidth="100.0" text="Specialisation" />
+                              <TableColumn fx:id="volunteerHoursWorkedColumn" prefWidth="100.0" text="Hours worked" />
+                              <TableColumn fx:id="volunteerStatusColumn" prefWidth="91.99997558593748" text="Status" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <Label text="Organisations  ( drop ) " />
+                        <TableView fx:id="organisationTable" prefHeight="380.0" prefWidth="420.0">
+                          <columns>
+                            <TableColumn fx:id="organisationTitle" prefWidth="189.0" text="Title" />
+                              <TableColumn fx:id="assignedVolunteer" prefWidth="240.0" text="Assigned Volunteer" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </center>
+</BorderPane>

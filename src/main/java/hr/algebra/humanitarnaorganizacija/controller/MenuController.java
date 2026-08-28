@@ -20,30 +20,38 @@ import java.io.File;
 
 public class MenuController {
 
-@FXML private AnchorPane rootAnchorPane;
-@FXML private MenuItem adminMenuItem;
-@FXML private MenuItem loadStatesMenuItem;
-@FXML private MenuItem loadOrganisationsXMLMenuItem;
-@FXML private MenuItem exportOrganisationsXMLMenuItem;
+    @FXML
+    private MenuItem assignVolunteersMenuItem;
+    @FXML
+    private AnchorPane rootAnchorPane;
+    @FXML
+    private MenuItem adminMenuItem;
+    @FXML
+    private MenuItem loadStatesMenuItem;
+    @FXML
+    private MenuItem loadOrganisationsXMLMenuItem;
+    @FXML
+    private MenuItem exportOrganisationsXMLMenuItem;
 
-//load service for loadingStates
-private static final ServiceLoadStates loadStatesService = new ServiceLoadStates();
-//load service for LoadingOrganisations
-private static final ServiceLoadOrganisations loadOrganisationsXMLService = new ServiceLoadOrganisations();
-//export service for XML export
-private static final ServiceExportOrganisations  exportOrganisationXMLService = new ServiceExportOrganisations();
+    //load service for loadingStates
+    private static final ServiceLoadStates loadStatesService = new ServiceLoadStates();
+    //load service for LoadingOrganisations
+    private static final ServiceLoadOrganisations loadOrganisationsXMLService = new ServiceLoadOrganisations();
+    //export service for XML export
+    private static final ServiceExportOrganisations exportOrganisationXMLService = new ServiceExportOrganisations();
 
     @FXML
     private void initialize() {
         /*automatski se pokrece kad se FXML ekran ucita u memoriju
-        * sustav poziva RoleUtility.isAdmin() i provjerava je li trenutni korisnik admin
-        * ako trenutni korisnik nije admin i adminMenuItem je disable-an
-        * */
+         * sustav poziva RoleUtility.isAdmin() i provjerava je li trenutni korisnik admin
+         * ako trenutni korisnik nije admin i adminMenuItem je disable-an
+         * */
         if (!RoleUtility.isAdmin()) {
             adminMenuItem.setDisable(true);
             loadStatesMenuItem.setDisable(true);
             loadOrganisationsXMLMenuItem.setDisable(true);
             exportOrganisationsXMLMenuItem.setDisable(true);
+            assignVolunteersMenuItem.setDisable(true);
         }
     }
 
@@ -61,8 +69,8 @@ private static final ServiceExportOrganisations  exportOrganisationXMLService = 
 
     @FXML
     private void onTables() {
-       SceneUtility.loadSceneWithLoader(
-               App.class.getResource("view/search-view.fxml"), stage(), "Organisations");
+        SceneUtility.loadSceneWithLoader(
+                App.class.getResource("view/search-view.fxml"), stage(), "Organisations");
 
     }
 
@@ -71,6 +79,7 @@ private static final ServiceExportOrganisations  exportOrganisationXMLService = 
         SceneUtility.loadSceneWithLoader(
                 App.class.getResource("view/admin-view.fxml"), stage(), "Admin UI");
     }
+
     @FXML
     private void onLogout() {
         RoleUtility.clearCurrentUser();
@@ -79,44 +88,40 @@ private static final ServiceExportOrganisations  exportOrganisationXMLService = 
     }
 
 
-    @FXML private void AboutUs(ActionEvent actionEvent) {
+    @FXML
+    private void AboutUs(ActionEvent actionEvent) {
         AlertUtility.showInfo("Human Rights Organisation", "Our Mission is to give voice to every Human");
     }
 
-    @FXML private void onLoadStates(ActionEvent actionEvent) {
-            if(loadStatesService.isRunning()) {
-                return;
-            } //if the service is running return
-            loadStatesMenuItem.setDisable(true); //disable menu while import is running
-            Alert progressAlert = AlertUtility.showInfoNonBlocking("API import", "Loading States...");
-            progressAlert.contentTextProperty().bind(loadStatesService.messageProperty());
-            //binding alert text with background task msg
+    @FXML
+    private void onLoadStates(ActionEvent actionEvent) {
+        if (loadStatesService.isRunning()) {
+            return;
+        } //if the service is running return
+        loadStatesMenuItem.setDisable(true); //disable menu while import is running
+        Alert progressAlert = AlertUtility.showInfoNonBlocking("API import", "Loading States...");
+        progressAlert.contentTextProperty().bind(loadStatesService.messageProperty());
+        //binding alert text with background task msg
 
-            //if success
-            loadStatesService.setOnSucceeded(event -> {
-                loadStatesMenuItem.setDisable(false);
-                Integer num = loadStatesService.getValue(); //states pulled from API
-                progressAlert.contentTextProperty().unbind();
-                progressAlert.setContentText("Import finished, new states count= " + num);
+        //if success
+        loadStatesService.setOnSucceeded(event -> {
+            loadStatesMenuItem.setDisable(false);
+            Integer num = loadStatesService.getValue(); //states pulled from API
+            progressAlert.contentTextProperty().unbind();
+            progressAlert.setContentText("Import finished, new states count= " + num);
         });
 
-            //if fail
-            loadStatesService.setOnFailed(event -> {
-                loadStatesMenuItem.setDisable(false);
-                progressAlert.contentTextProperty().unbind();
-                progressAlert.setContentText("Error " + loadStatesService.getException().getMessage());
-            });
-
-            loadStatesService.restart();
-
+        //if fail
+        loadStatesService.setOnFailed(event -> {
+            loadStatesMenuItem.setDisable(false);
+            progressAlert.contentTextProperty().unbind();
+            progressAlert.setContentText("Error " + loadStatesService.getException().getMessage());
+        });
+        loadStatesService.restart();
     }
 
-
-    public void setAdminMenuItem(MenuItem adminMenuItem) {
-
-    }
-
-    @FXML private void onLoadOrganisationsXML(ActionEvent actionEvent) {
+    @FXML
+    private void onLoadOrganisationsXML(ActionEvent actionEvent) {
         if (loadOrganisationsXMLService.isRunning()) {
             return;
         }
@@ -144,8 +149,9 @@ private static final ServiceExportOrganisations  exportOrganisationXMLService = 
 
     }
 
-    @FXML private void onExportOrganisationsXML(ActionEvent actionEvent) {
-        if(exportOrganisationXMLService.isRunning()) {
+    @FXML
+    private void onExportOrganisationsXML(ActionEvent actionEvent) {
+        if (exportOrganisationXMLService.isRunning()) {
             return;
         }
         //postavi FileChooser
@@ -155,11 +161,31 @@ private static final ServiceExportOrganisations  exportOrganisationXMLService = 
         fileChooser.setInitialFileName("organisations-export.xml");
 
         File file = fileChooser.showSaveDialog(stage());
-        //TODO PROĆI OVO JOŠ JEDNOM DO ROOTA
-        if(file == null) {
+        if (file == null) {
             return;
         }
         exportOrganisationXMLService.setPath(file.getAbsolutePath());
+        exportOrganisationsXMLMenuItem.setDisable(true);
+        Alert progressAlert = AlertUtility.showInfoNonBlocking("XML export", "Exporting Organisations...");
+        progressAlert.contentTextProperty().bind(exportOrganisationXMLService.messageProperty());
 
+        exportOrganisationXMLService.setOnSucceeded(event -> {
+            exportOrganisationsXMLMenuItem.setDisable(false);
+            Integer num = exportOrganisationXMLService.getValue();
+            progressAlert.contentTextProperty().unbind();
+            progressAlert.setContentText("Export finished, " + num + " organisations saved");
+        });
+
+        exportOrganisationXMLService.setOnFailed(event -> {
+            exportOrganisationsXMLMenuItem.setDisable(false);
+            progressAlert.contentTextProperty().unbind();
+            progressAlert.setContentText("Error " + exportOrganisationXMLService.getException().getMessage());
+        });
+        exportOrganisationXMLService.restart();
+    }
+
+    @FXML private void onAssignVolunteers(ActionEvent actionEvent) {
+        SceneUtility.loadSceneWithLoader(
+                App.class.getResource("view/assign-view.fxml"), stage(), "Assign Volunteers");
     }
 }
