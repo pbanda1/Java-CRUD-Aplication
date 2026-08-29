@@ -4,6 +4,9 @@ import hr.algebra.humanitarnaorganizacija.model.Organisation;
 import hr.algebra.humanitarnaorganizacija.model.Volunteer;
 import hr.algebra.humanitarnaorganizacija.repo.OrganisationRepo;
 import hr.algebra.humanitarnaorganizacija.repo.VolunteerRepo;
+import hr.algebra.humanitarnaorganizacija.util.AlertUtility;
+import hr.algebra.humanitarnaorganizacija.util.RoleUtility;
+import hr.algebra.humanitarnaorganizacija.util.UserActionLoggerUtility;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -86,17 +89,20 @@ public class AssignController {
             row.setOnDragDropped(dragEvent -> {
                 Dragboard db = dragEvent.getDragboard();
                 boolean success = false;
-                    if (db.hasString() && !row.isEmpty()) {
-                        int volunteerID = Integer.parseInt(db.getString());
-                        Volunteer volunteer = VolunteerRepo.getInstance().findById(volunteerID).orElseThrow();
-                        Organisation organisation  = row.getItem();
-                        organisation.setVolunteer(volunteer);
-                        OrganisationRepo.getInstance().update(organisation);
-                        success = true;
-                    }
-                    dragEvent.setDropCompleted(success);
-                    dragEvent.consume();
-                    loadData();
+                if (db.hasString() && !row.isEmpty()) {
+                    int volunteerID = Integer.parseInt(db.getString());
+                    Volunteer volunteer = VolunteerRepo.getInstance().findById(volunteerID).orElseThrow();
+                    Organisation organisation = row.getItem();
+                    organisation.setVolunteer(volunteer);
+                    OrganisationRepo.getInstance().update(organisation);
+                    success = true;
+                    AlertUtility.showInfo("Volunteer: ",
+                            volunteer.getName() + " " + volunteer.getSurName() + " assigned to " + organisation.getTitle());
+                    UserActionLoggerUtility.log(RoleUtility.getCurrentUser().getUserName(), "ASSIGN VOLUNTEER", volunteer.getName() + " " + volunteer.getSurName() + " -> " + organisation.getTitle());
+                }
+                dragEvent.setDropCompleted(success);
+                dragEvent.consume();
+                loadData();
             });
             return row;
         });

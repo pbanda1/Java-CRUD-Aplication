@@ -18,4 +18,5 @@ module hr.algebra.humanitarnaorganizacija {
     opens hr.algebra.humanitarnaorganizacija.controller to javafx.fxml;
     opens hr.algebra.humanitarnaorganizacija.model to javafx.base;
     exports hr.algebra.humanitarnaorganizacija;
+    opens hr.algebra.humanitarnaorganizacija.interface_ to javafx.base;
 }

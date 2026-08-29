@@ -1,4 +1,4 @@
-package hr.algebra.humanitarnaorganizacija.model;
+package hr.algebra.humanitarnaorganizacija.interface_;
 
 public interface Identifiable {
     int getID();

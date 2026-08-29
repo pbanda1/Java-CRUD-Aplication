@@ -1,11 +1,13 @@
 package hr.algebra.humanitarnaorganizacija.util;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.DriverManager; //otvara vezu prema bazi
 import java.sql.Connection; //veza ili cijev prema bazi
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import hr.algebra.humanitarnaorganizacija.exception.DatabaseException;
+import hr.algebra.humanitarnaorganizacija.poco.AppConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,16 +19,20 @@ public final class DatabaseUtil {
 
     private static final Logger log = LoggerFactory.getLogger(DatabaseUtil.class);
 
-    private static final String URL = "jdbc:h2:./HumanitarianDB;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE"; //standard za baze u Javi, H2 baza, ./ Datoteka u rootu
-    private static final String USERNAME = "sa";
-    private static final String PASSWORD = "";
+    private static final String CONFIG_PATH = "/hr/algebra/humanitarnaorganizacija/data/app-config.xml";
+    private static final AppConfig CONFIG = loadConfig();
+
+    private static AppConfig loadConfig() {
+        InputStream xml = DatabaseUtil.class.getResourceAsStream(CONFIG_PATH);
+        return ConfigParserUtility.parse_Config(xml);
+    }
 
     private static final Connection INSTANCE; //1. ovo je jedina veza koju će koristiti cijela aplikacija
 
     //STATIC BLOK SE PRVI UČITAVA   2. - primjer  EAGER SINGLETONA
     static {
         try {
-            INSTANCE = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            INSTANCE = DriverManager.getConnection(CONFIG.getUrl(), CONFIG.getUsername(), CONFIG.getPassword());
             log.info("Instance found!");
         } catch (SQLException e) {
             String msg = "Unsuccessful connection to Database";

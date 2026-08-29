@@ -5,7 +5,9 @@ import hr.algebra.humanitarnaorganizacija.exception.RepoException;
 import hr.algebra.humanitarnaorganizacija.model.Organisation;
 import hr.algebra.humanitarnaorganizacija.repo.OrganisationRepo;
 import hr.algebra.humanitarnaorganizacija.util.AlertUtility;
+import hr.algebra.humanitarnaorganizacija.util.RoleUtility;
 import hr.algebra.humanitarnaorganizacija.util.SceneUtility;
+import hr.algebra.humanitarnaorganizacija.util.UserActionLoggerUtility;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -112,6 +114,7 @@ public class AdminController {
             OrganisationRepo.getInstance().deleteById(selectedOrg.getID());
             AlertUtility.showInfo("Organisation", selectedOrg.toString() + " deleted");
             //refresh tablice
+            UserActionLoggerUtility.log(RoleUtility.getCurrentUser().getUserName(), "DELETED ORGANSIATION", "Deleted " + selectedOrg.getTitle());
             loadData();
         } catch (RepoException e) {
             AlertUtility.showError("Error whilst trying to delete Org", e.getMessage());

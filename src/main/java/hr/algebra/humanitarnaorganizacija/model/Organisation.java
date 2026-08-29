@@ -1,8 +1,10 @@
 package hr.algebra.humanitarnaorganizacija.model;
 
+import hr.algebra.humanitarnaorganizacija.interface_.Identifiable;
+
 import java.util.Objects;
 
-public class Organisation implements Comparable<Organisation>, Identifiable   {
+public class Organisation implements Comparable<Organisation>, Identifiable {
 
     //PROPS
     private int ID;

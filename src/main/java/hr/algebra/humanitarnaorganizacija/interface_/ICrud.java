@@ -1,4 +1,4 @@
-package hr.algebra.humanitarnaorganizacija.repo;
+package hr.algebra.humanitarnaorganizacija.interface_;
 
 import hr.algebra.humanitarnaorganizacija.exception.RepoException;
 

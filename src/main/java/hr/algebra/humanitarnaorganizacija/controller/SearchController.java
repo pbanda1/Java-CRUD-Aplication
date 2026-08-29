@@ -86,7 +86,8 @@ public class SearchController {
         }
         List<Organisation> filtered =
                 organisations.stream().filter(
-                                o -> o.getTitle().toLowerCase().contains(searchTerm)
+                                o ->
+                                        o.getTitle().toLowerCase().contains(searchTerm) || o.getMission().getMissionTitle().toLowerCase().contains(searchTerm)
                                         || o.getEndGoal().toLowerCase().contains(searchTerm) || o.getCountry().getStateName().toLowerCase().contains(searchTerm)).toList();
 
         organisationTable.setItems(FXCollections.observableArrayList(filtered));

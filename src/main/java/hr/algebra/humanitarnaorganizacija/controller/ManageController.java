@@ -5,7 +5,9 @@ import hr.algebra.humanitarnaorganizacija.exception.RepoException;
 import hr.algebra.humanitarnaorganizacija.model.*;
 import hr.algebra.humanitarnaorganizacija.repo.*;
 import hr.algebra.humanitarnaorganizacija.util.AlertUtility;
+import hr.algebra.humanitarnaorganizacija.util.RoleUtility;
 import hr.algebra.humanitarnaorganizacija.util.SceneUtility;
+import hr.algebra.humanitarnaorganizacija.util.UserActionLoggerUtility;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -115,7 +117,7 @@ public class ManageController {
         int numOfEmployees;
         double yearlyBudget;
 
-        ///CHECK FOR INTEGERS BEGIN  //////
+        //CHECK FOR INTEGERS BEGIN  //////
         try {
             yearEstablishment = Integer.parseInt(yearFieldText.trim());
             numOfEmployees = Integer.parseInt(employeesFieldText.trim());
@@ -136,10 +138,10 @@ public class ManageController {
             AlertUtility.showError("Invalid Input", "Yearly Budget must be greater than 10000");
             return;
         }
-        ///CHECK FOR INTEGERS END  //////
+        //CHECK FOR INTEGERS END  //////
 
 
-        ///povlačenje vrijednosti iz combosa
+        //povlačenje vrijednosti iz combosa
         Country selectedCountry = countryComboBox.getValue();
         Mission selectedMission = missionComboBox.getValue();
         Volunteer selectedVolunteer = volunteerComboBox.getValue();
@@ -151,7 +153,7 @@ public class ManageController {
             AlertUtility.showError("Invalid input", "You must select a Country, Mission, Volunteer, Sponsor and Campaign.");
             return;
         }
-        /// definiram Organizaciju i spremam je
+        // definiram Organizaciju i spremam je
         Organisation org = new Organisation();
         org.setTitle(titleFieldText);
         org.setYearEstablishment(yearEstablishment);
@@ -169,7 +171,9 @@ public class ManageController {
         try {
             if (editingOrganisation == null) {
                 OrganisationRepo.getInstance().save(org);
+                UserActionLoggerUtility.log(RoleUtility.getCurrentUser().getUserName(), "EDITING_ORGANISATION", "edited: " + org.getTitle());
                 AlertUtility.showInfo("Success", "Organisation saved successfully");
+
             } else {
                 org.setID(editingOrganisation.getID());
                 OrganisationRepo.getInstance().update(org);

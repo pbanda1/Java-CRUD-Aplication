@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+    <database>
+            <url>jdbc:h2:./HumanitarianDB;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE</url>
+            <username>sa</username>
+            <password></password>
+    </database>
+    <screen>
+    <width>900</width>
+    <height>600</height>
+    </screen>
+</config>

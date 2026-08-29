@@ -7,6 +7,7 @@ import hr.algebra.humanitarnaorganizacija.service.ServiceLoadStates;
 import hr.algebra.humanitarnaorganizacija.util.AlertUtility;
 import hr.algebra.humanitarnaorganizacija.util.RoleUtility;
 import hr.algebra.humanitarnaorganizacija.util.SceneUtility;
+import hr.algebra.humanitarnaorganizacija.util.UserActionLoggerUtility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -82,7 +83,9 @@ public class MenuController {
 
     @FXML
     private void onLogout() {
+        String USER = RoleUtility.getCurrentUser().getUserName();
         RoleUtility.clearCurrentUser();
+        UserActionLoggerUtility.log(USER, "LOGOUT",  " user logged out");
         SceneUtility.loadSceneWithLoader(
                 App.class.getResource("view/login-view.fxml"), stage(), "Authentification");
     }
@@ -109,6 +112,7 @@ public class MenuController {
             Integer num = loadStatesService.getValue(); //states pulled from API
             progressAlert.contentTextProperty().unbind();
             progressAlert.setContentText("Import finished, new states count= " + num);
+            UserActionLoggerUtility.log(RoleUtility.getCurrentUser().getUserName(), "IMPORT_STATES_XML", num + " states imported");
         });
 
         //if fail
@@ -135,6 +139,7 @@ public class MenuController {
             Integer num = loadOrganisationsXMLService.getValue(); //numOfNewOrganisations
             progressAlert.contentTextProperty().unbind();
             progressAlert.setContentText("Import finished, new Organisations count= " + num);
+            UserActionLoggerUtility.log(RoleUtility.getCurrentUser().getUserName(), "IMPORT_ORGANISATIONS_XML", num + " organisations imported");
 
         });
 
@@ -174,6 +179,7 @@ public class MenuController {
             Integer num = exportOrganisationXMLService.getValue();
             progressAlert.contentTextProperty().unbind();
             progressAlert.setContentText("Export finished, " + num + " organisations saved");
+            UserActionLoggerUtility.log(RoleUtility.getCurrentUser().getUserName(), "EXPORT_ORGANISATIONS_XML", num + " organisations exported");
         });
 
         exportOrganisationXMLService.setOnFailed(event -> {

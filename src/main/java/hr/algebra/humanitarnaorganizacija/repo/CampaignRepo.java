@@ -1,6 +1,7 @@
 package hr.algebra.humanitarnaorganizacija.repo;
 
 import hr.algebra.humanitarnaorganizacija.exception.RepoException;
+import hr.algebra.humanitarnaorganizacija.interface_.ICrud;
 import hr.algebra.humanitarnaorganizacija.model.Campaign;
 import hr.algebra.humanitarnaorganizacija.util.DatabaseUtil;
 import org.slf4j.Logger;
