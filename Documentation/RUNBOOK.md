@@ -53,3 +53,5 @@ blokova iznimaka a isto tako i logiranje korisničkih akcija u real-time unutar 
 Admin je u mogućnosti na klik MenuItema clear-ati cijelu bazu stoga je potrebno izaći iz aplikacije
 kako bi se ona opet instancirala i popunila vrijednostima koje smo zadali prilikom insert naredbi u init.SQL
 
+Admin također ima mogućnost exporta cijele baze podataka u trenutnom stanju u XML file 
+
