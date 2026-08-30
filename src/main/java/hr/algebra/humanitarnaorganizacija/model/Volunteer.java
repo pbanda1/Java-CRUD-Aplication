@@ -5,7 +5,7 @@ public class Volunteer extends Person implements Comparable<Volunteer> {
     private String specialisation;
     private int hoursNum;
 
-    //public - drugi ga moraju vidjeti
+
     public enum VolunteerStatus {
         Active,
         Inactive

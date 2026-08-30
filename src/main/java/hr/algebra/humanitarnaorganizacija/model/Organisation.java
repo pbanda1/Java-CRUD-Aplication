@@ -23,8 +23,7 @@ public class Organisation implements Comparable<Organisation>, Identifiable {
         private Campaign campaign;
 
     //CONSTRUCTORS
-        // -> default
-        // koristim ga u ManageControlleru
+
     public Organisation() {
     }
 

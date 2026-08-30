@@ -110,7 +110,7 @@ public class MissionRepo implements ICrud<Mission, Integer> {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            String msg = "Can not delete Mission, possible invalid ID";
+            String msg = "Can not delete Mission";
             log.error(msg, e);
             throw new RepoException(msg, e);
         }

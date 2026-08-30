@@ -33,6 +33,8 @@ public class MenuController {
     @FXML
     private MenuItem exportOrganisationsXMLMenuItem;
 
+    @FXML private MenuItem resetDBMenuItem;
+
     //load service for loadingStates
     private static final ServiceLoadStates loadStatesService = new ServiceLoadStates();
     //load service for LoadingOrganisations
@@ -52,6 +54,8 @@ public class MenuController {
             loadOrganisationsXMLMenuItem.setDisable(true);
             exportOrganisationsXMLMenuItem.setDisable(true);
             assignVolunteersMenuItem.setDisable(true);
+            resetDBMenuItem.setDisable(true);
+
         }
     }
 
@@ -194,7 +198,7 @@ public class MenuController {
                 App.class.getResource("view/assign-view.fxml"), stage(), "Assign Volunteers");
     }
 
-   @FXML private void OnResetDatabase(ActionEvent actionEvent) {
+   @FXML private void onResetDatabase(ActionEvent actionEvent) {
        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION, "This will permanently delete all Countries, Missions, Volunteers, Sponsors, Campaigns and Organisations. Are you sure?", ButtonType.YES, ButtonType.NO);
        confirmAlert.setTitle("Reset Database");
        Optional<ButtonType> result = confirmAlert.showAndWait();

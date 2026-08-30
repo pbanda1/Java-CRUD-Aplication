@@ -19,7 +19,7 @@
                     <MenuItem fx:id="loadOrganisationsXMLMenuItem" text="Load Organisations from XML" onAction="#onLoadOrganisationsXML"/>
                     <MenuItem fx:id="exportOrganisationsXMLMenuItem" text="Export Organisations to XML" onAction="#onExportOrganisationsXML"/>
                     <MenuItem fx:id="adminMenuItem" text="Admin" onAction="#onAdmin"/>
-                    <MenuItem fx:id="resetDBMenuItem" text="ResetDatabase" onAction="#OnResetDatabase"/>
+                    <MenuItem fx:id="resetDBMenuItem" text="ResetDatabase" onAction="#onResetDatabase"/>
                     <MenuItem text="Log out" onAction="#onLogout"/>
                     <MenuItem text="About" onAction="#AboutUs"/>
                 </items>

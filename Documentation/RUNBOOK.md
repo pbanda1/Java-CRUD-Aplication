@@ -38,3 +38,7 @@ bi se config valjano mogao povući i proslijediti static blocku.
 
 Omogućeno je i informacijsko logiranje i error logiranje unutar aplikacije unutar catch 
 blokova iznimaka a isto tako i logiranje korisničkih akcija unutar aplikacije.
+
+Admin je u mogućnosti na klik MenuItema clear-ati cijelu bazu stoga je potrebno izaći iz aplikacije
+kako bi se ona opet instancirala i popunila vrijednostima koje smo zadali prilikom insert naredbi u init.SQL
+

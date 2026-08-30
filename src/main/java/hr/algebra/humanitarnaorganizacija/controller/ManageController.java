@@ -83,7 +83,7 @@ public class ManageController {
 
     }
 
-    //public metoda jer je poziva druga klasa  a ne @FXML Loader refleksijom
+
     public void setOrganisationToEdit(Organisation org) {
         this.editingOrganisation = org;
 
@@ -104,15 +104,15 @@ public class ManageController {
     @FXML
     private void onSave(ActionEvent actionEvent) {
 
-        //pospremi text iz fieldova u String
+
         String titleFieldText = titleField.getText();
-        //year, employees i budget se parsiraju preko stringa u brojčane vrijednosti
+
         String yearFieldText = yearField.getText();
         String employeesFieldText = employeesField.getText();
         String budgetFieldText = budgetField.getText();
         String endGoalFieldText = endGoalField.getText();
         String logoFieldText = logoField.getText();
-        //definiraj tip po godini, broju zaposlenika i budzetu
+
         int yearEstablishment;
         int numOfEmployees;
         double yearlyBudget;

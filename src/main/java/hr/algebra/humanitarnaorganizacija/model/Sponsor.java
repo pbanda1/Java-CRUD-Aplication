@@ -13,7 +13,7 @@ public class Sponsor extends Person implements Comparable<Sponsor> {
     }
 
     //READ FROM DB -
-    //pretvara redak tablice u java objekt - zato String donatorType
+
     public Sponsor(int ID, String name, String surName, DonatorType donatorType) {
         super(ID, name, surName);
         this.donatorType = donatorType;

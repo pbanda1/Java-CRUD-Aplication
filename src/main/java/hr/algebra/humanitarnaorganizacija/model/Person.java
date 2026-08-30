@@ -10,7 +10,7 @@ public abstract class Person implements Identifiable {
     protected String name;
     protected String surName;
 
-    //pozivam defaultni konstruktor jer podklasa poziva prvo roditeljski dio
+
     protected Person() {
     }
 
