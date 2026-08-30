@@ -127,6 +127,7 @@ public class AdminController {
             //refresh tablice
             UserActionLoggerUtility.log(RoleUtility.getCurrentUser().getUserName(), "DELETED ORGANSIATION", "Deleted " + selectedOrg.getTitle());
             loadData();
+            showOrg();
         } catch (RepoException e) {
             AlertUtility.showError("Error whilst trying to delete Org", e.getMessage());
         }
