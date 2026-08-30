@@ -3,6 +3,7 @@ package hr.algebra.humanitarnaorganizacija.repo;
 import hr.algebra.humanitarnaorganizacija.exception.RepoException;
 import hr.algebra.humanitarnaorganizacija.interface_.ICrud;
 import hr.algebra.humanitarnaorganizacija.model.Sponsor;
+import hr.algebra.humanitarnaorganizacija.model.enums.DonatorType;
 import hr.algebra.humanitarnaorganizacija.util.DatabaseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,7 +74,7 @@ public class SponsorRepo implements ICrud<Sponsor, Integer> {
                 resultSet.getInt("ID"),
                 resultSet.getString("Name"),
                 resultSet.getString("Surname"),
-                Sponsor.DonatorType.valueOf(resultSet.getString("DonatorType"))
+                DonatorType.valueOf(resultSet.getString("DonatorType"))
         );
     }
 

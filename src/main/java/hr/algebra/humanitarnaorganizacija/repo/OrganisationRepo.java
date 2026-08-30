@@ -1,9 +1,9 @@
 package hr.algebra.humanitarnaorganizacija.repo;
-
-
 import hr.algebra.humanitarnaorganizacija.exception.RepoException;
 import hr.algebra.humanitarnaorganizacija.interface_.ICrud;
 import hr.algebra.humanitarnaorganizacija.model.*;
+import hr.algebra.humanitarnaorganizacija.model.enums.DonatorType;
+import hr.algebra.humanitarnaorganizacija.model.enums.VolunteerStatus;
 import hr.algebra.humanitarnaorganizacija.util.DatabaseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -124,13 +124,13 @@ public class OrganisationRepo implements ICrud<Organisation, Integer> {
                         rs.getString("VSurname"),
                         rs.getString("Specialisation"),
                         rs.getInt("HoursNum"),
-                        Volunteer.VolunteerStatus.valueOf(rs.getString("Status"))
+                        VolunteerStatus.valueOf(rs.getString("Status"))
                 ),
                 new Sponsor(
                         rs.getInt("SponsorID"),
                         rs.getString("SName"),
                         rs.getString("SSurName"),
-                        Sponsor.DonatorType.valueOf(rs.getString("DonatorType"))
+                        DonatorType.valueOf(rs.getString("DonatorType"))
                 ),
 
                 new Campaign(

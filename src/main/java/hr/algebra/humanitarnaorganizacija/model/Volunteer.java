@@ -1,17 +1,14 @@
 package hr.algebra.humanitarnaorganizacija.model;
 
+import hr.algebra.humanitarnaorganizacija.model.enums.VolunteerStatus;
+
 public class Volunteer extends Person implements Comparable<Volunteer> {
 
     private String specialisation;
     private int hoursNum;
-
-
-    public enum VolunteerStatus {
-        Active,
-        Inactive
-    }
-
     private VolunteerStatus volunteerStatus;
+
+
 
     //SET VIA SETTERS
     public Volunteer() {

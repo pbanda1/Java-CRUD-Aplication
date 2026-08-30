@@ -13,7 +13,7 @@ public final class JsonParserUtility {
     /// LOGGER ////
     private static final Logger log = LoggerFactory.getLogger(JsonParserUtility.class);
 
-    /// OBJECT MAPPER //
+    /// OBJECT MAPPER ///
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     private JsonParserUtility() {

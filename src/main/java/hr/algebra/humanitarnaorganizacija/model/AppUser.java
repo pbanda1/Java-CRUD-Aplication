@@ -1,14 +1,12 @@
 package hr.algebra.humanitarnaorganizacija.model;
 
+import hr.algebra.humanitarnaorganizacija.model.enums.Role;
+
 public class AppUser extends Person implements Comparable<AppUser> {
 
     private String userName;
     private String passWord;
     private Role role;
-
-    public enum Role {
-        Admin, User
-    }
 
     //SET VIA SETTERS
     public AppUser() {

@@ -1,6 +1,7 @@
 package hr.algebra.humanitarnaorganizacija.util;
 
 import hr.algebra.humanitarnaorganizacija.model.AppUser;
+import hr.algebra.humanitarnaorganizacija.model.enums.Role;
 
 public class RoleUtility {
 
@@ -19,6 +20,6 @@ public class RoleUtility {
         currentUser = null;
     }
     public static boolean isAdmin() {
-        return currentUser != null && currentUser.getRole() == AppUser.Role.Admin;
+        return currentUser != null && currentUser.getRole() == Role.Admin;
     }
 }

@@ -1,12 +1,11 @@
 package hr.algebra.humanitarnaorganizacija.model;
 
+import hr.algebra.humanitarnaorganizacija.model.enums.DonatorType;
+
 public class Sponsor extends Person implements Comparable<Sponsor> {
 
-    private DonatorType donatorType;
 
-    public enum DonatorType {
-        Individual, Company, Foundation
-    }
+    private DonatorType donatorType;
 
     //FILL WITH GET + SET (XML/JSON)
     public Sponsor() {

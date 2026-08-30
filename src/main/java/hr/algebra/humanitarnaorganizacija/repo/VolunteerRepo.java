@@ -3,6 +3,7 @@ package hr.algebra.humanitarnaorganizacija.repo;
 import hr.algebra.humanitarnaorganizacija.exception.RepoException;
 import hr.algebra.humanitarnaorganizacija.interface_.ICrud;
 import hr.algebra.humanitarnaorganizacija.model.Volunteer;
+import hr.algebra.humanitarnaorganizacija.model.enums.VolunteerStatus;
 import hr.algebra.humanitarnaorganizacija.util.DatabaseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +75,7 @@ public class VolunteerRepo implements ICrud<Volunteer, Integer> {
                 resultSet.getString("Surname"),
                 resultSet.getString("Specialisation"),
                 resultSet.getInt("HoursNum"),
-                Volunteer.VolunteerStatus.valueOf(resultSet.getString("Status"))
+                VolunteerStatus.valueOf(resultSet.getString("Status"))
         );
     };
 
