@@ -1,6 +1,7 @@
 package hr.algebra.humanitarnaorganizacija.controller;
 
 import hr.algebra.humanitarnaorganizacija.App;
+import hr.algebra.humanitarnaorganizacija.service.ServiceBackupDatabase;
 import hr.algebra.humanitarnaorganizacija.service.ServiceExportOrganisations;
 import hr.algebra.humanitarnaorganizacija.service.ServiceLoadOrganisations;
 import hr.algebra.humanitarnaorganizacija.service.ServiceLoadStates;
@@ -35,12 +36,16 @@ public class MenuController {
 
     @FXML private MenuItem resetDBMenuItem;
 
+    @FXML private MenuItem backupDatabaseMenuItem;
+
     //load service for loadingStates
     private static final ServiceLoadStates loadStatesService = new ServiceLoadStates();
     //load service for LoadingOrganisations
     private static final ServiceLoadOrganisations loadOrganisationsXMLService = new ServiceLoadOrganisations();
     //export service for XML export
     private static final ServiceExportOrganisations exportOrganisationXMLService = new ServiceExportOrganisations();
+    //load service for DatabaseExport
+    private static final ServiceBackupDatabase backupDatabaseService = new ServiceBackupDatabase();
 
     @FXML
     private void initialize() {
@@ -207,5 +212,41 @@ public class MenuController {
            UserActionLoggerUtility.log(RoleUtility.getCurrentUser().getUserName(), "RESET_DATABASE", "Database cleared");
            AlertUtility.showInfo("Database", "Database has been cleared");
        }
+    }
+
+    @FXML
+    private void onBackupDatabase(ActionEvent actionEvent) {
+        if (backupDatabaseService.isRunning()) {
+            return;
+        }
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Backup Database");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML files", "*.xml"));
+        fileChooser.setInitialFileName("database-backup.xml");
+
+        File file = fileChooser.showSaveDialog(stage());
+        if (file == null) {
+            return;
+        }
+        backupDatabaseService.setPath(file.getAbsolutePath());
+        backupDatabaseMenuItem.setDisable(true);
+        Alert progressAlert = AlertUtility.showInfoNonBlocking("Backup", "Creating database backup...");
+        progressAlert.contentTextProperty().bind(backupDatabaseService.messageProperty());
+
+        backupDatabaseService.setOnSucceeded(event -> {
+            backupDatabaseMenuItem.setDisable(false);
+            Integer total = backupDatabaseService.getValue();
+            progressAlert.contentTextProperty().unbind();
+            progressAlert.setContentText("Backup finished, " + total + " records saved");
+            UserActionLoggerUtility.log(RoleUtility.getCurrentUser().getUserName(), "BACKUP_DATABASE", total + " records backed up");
+        });
+
+        backupDatabaseService.setOnFailed(event -> {
+            backupDatabaseMenuItem.setDisable(false);
+            progressAlert.contentTextProperty().unbind();
+            progressAlert.setContentText("Error " + backupDatabaseService.getException().getMessage());
+        });
+
+        backupDatabaseService.restart();
     }
 }
