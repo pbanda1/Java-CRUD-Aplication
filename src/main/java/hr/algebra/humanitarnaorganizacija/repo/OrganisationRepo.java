@@ -90,6 +90,7 @@ public class OrganisationRepo implements ICrud<Organisation, Integer> {
             WHERE Organisation.ID = ?
             """;
 
+
     @Override
     public List<Organisation> findAll() {
         List<Organisation> organisation = new ArrayList<>();

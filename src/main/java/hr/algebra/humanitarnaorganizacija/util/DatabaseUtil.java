@@ -1,26 +1,22 @@
 package hr.algebra.humanitarnaorganizacija.util;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.DriverManager; //otvara vezu prema bazi
-import java.sql.Connection; //veza ili cijev prema bazi
-import java.sql.SQLException;
-import java.sql.Statement;
-
+import java.sql.*;
 import hr.algebra.humanitarnaorganizacija.exception.DatabaseException;
 import hr.algebra.humanitarnaorganizacija.poco.AppConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+
 //EAGER SINGLETON
 public final class DatabaseUtil {
 
-    ///LOGGER////
-
     private static final Logger log = LoggerFactory.getLogger(DatabaseUtil.class);
-
     private static final String CONFIG_PATH = "/hr/algebra/humanitarnaorganizacija/data/app-config.xml";
     private static final AppConfig CONFIG = loadConfig();
+    private static final String INIT_DB_PATH = "/hr/algebra/humanitarnaorganizacija/sql/initDB.sql";
+    private static final String RESET_DB_PATH = "/hr/algebra/humanitarnaorganizacija/sql/resetDB.sql";
 
     private static AppConfig loadConfig() {
         InputStream xml = DatabaseUtil.class.getResourceAsStream(CONFIG_PATH);
@@ -50,9 +46,19 @@ public final class DatabaseUtil {
         return INSTANCE;  // sadrzi metapodatke za bazu url , username i possword
     }
 
-    public static void execSQL(Connection conn) {
+    public static boolean schemaExists(Connection conn) {
+        String sql = "SELECT COUNT(*) FROM Country";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            return rs.next() && rs.getInt(1) > 0;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public static void execSQL(Connection conn , String sqlPath) {
         try {
-            String ddl = new String(DatabaseUtil.class.getResourceAsStream("/hr/algebra/humanitarnaorganizacija/sql/initDB.sql").readAllBytes());
+            String ddl = new String(DatabaseUtil.class.getResourceAsStream(sqlPath).readAllBytes());
             try (Statement stmt = conn.createStatement()) { //napravi statement
                 for (String sql_ : ddl.split(";")) { // razreze cijeli tekst na niz naredbi na svakom ";"
                     String trimmedSQL = sql_.trim();
@@ -69,9 +75,14 @@ public final class DatabaseUtil {
     }
 
     public static void initSchema(Connection conn)  {
-        execSQL(conn);
+        execSQL(conn, INIT_DB_PATH);
         log.info("Database initialised");
 
+    }
+
+    public static void resetDatabase(Connection conn) {
+        execSQL(conn, RESET_DB_PATH);
+        log.info("Database reset");
     }
 
 

@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -56,6 +57,10 @@ public class AdminController {
     @FXML
     private TableColumn<Organisation, String> campaignColumn;
 
+    @FXML private Label totalLabel;
+
+
+
     @FXML
     private Button addButton;
     @FXML
@@ -79,6 +84,12 @@ public class AdminController {
         campaignColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCampaign().getCampaignTitle()));
 
         loadData();
+        showOrg();
+    }
+
+    private void showOrg() {
+        int countOrg = OrganisationRepo.getInstance().count();
+        totalLabel.setText("Total organisations " + countOrg);
     }
 
     private void loadData() {

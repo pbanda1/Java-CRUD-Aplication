@@ -51,7 +51,7 @@ public abstract class Person implements Identifiable {
         this.surName = surName;
     }
 
-    public abstract String getClassRole();  //vraćam uloge svake osobe
+    public abstract String getClassRole();
 
     //HASH-CODE-METHOD
     @Override

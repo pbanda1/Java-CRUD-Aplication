@@ -16,7 +16,10 @@ public class App extends Application {
     @Override
     public void init() throws Exception {
         var conn = DatabaseUtil.getConnection();
-        DatabaseUtil.initSchema(conn);
+        if (!DatabaseUtil.schemaExists(conn)) {
+            DatabaseUtil.initSchema(conn);
+        }
+
     }
 
     @Override

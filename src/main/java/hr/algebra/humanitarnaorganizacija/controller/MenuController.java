@@ -4,19 +4,18 @@ import hr.algebra.humanitarnaorganizacija.App;
 import hr.algebra.humanitarnaorganizacija.service.ServiceExportOrganisations;
 import hr.algebra.humanitarnaorganizacija.service.ServiceLoadOrganisations;
 import hr.algebra.humanitarnaorganizacija.service.ServiceLoadStates;
-import hr.algebra.humanitarnaorganizacija.util.AlertUtility;
-import hr.algebra.humanitarnaorganizacija.util.RoleUtility;
-import hr.algebra.humanitarnaorganizacija.util.SceneUtility;
-import hr.algebra.humanitarnaorganizacija.util.UserActionLoggerUtility;
+import hr.algebra.humanitarnaorganizacija.util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.MenuItem;
 
 import java.io.File;
+import java.util.Optional;
 
 
 public class MenuController {
@@ -193,5 +192,16 @@ public class MenuController {
     @FXML private void onAssignVolunteers(ActionEvent actionEvent) {
         SceneUtility.loadSceneWithLoader(
                 App.class.getResource("view/assign-view.fxml"), stage(), "Assign Volunteers");
+    }
+
+   @FXML private void OnResetDatabase(ActionEvent actionEvent) {
+       Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION, "This will permanently delete all Countries, Missions, Volunteers, Sponsors, Campaigns and Organisations. Are you sure?", ButtonType.YES, ButtonType.NO);
+       confirmAlert.setTitle("Reset Database");
+       Optional<ButtonType> result = confirmAlert.showAndWait();
+       if (result.isPresent() && result.get() == ButtonType.YES) {
+           DatabaseUtil.resetDatabase(DatabaseUtil.getConnection());
+           UserActionLoggerUtility.log(RoleUtility.getCurrentUser().getUserName(), "RESET_DATABASE", "Database cleared");
+           AlertUtility.showInfo("Database", "Database has been cleared");
+       }
     }
 }
