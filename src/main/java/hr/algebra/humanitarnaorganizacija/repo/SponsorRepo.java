@@ -18,10 +18,10 @@ import java.util.Optional;
 public class SponsorRepo implements ICrud<Sponsor, Integer> {
 
 
-    /// LOGGING /////
+    //LOGGING /////
     private static final Logger log = LoggerFactory.getLogger(SponsorRepo.class);
 
-    /// SINGLETON ////////////
+    //SINGLETON ////////////
     private static final SponsorRepo INSTANCE = new SponsorRepo();
 
     private SponsorRepo() {
@@ -32,20 +32,20 @@ public class SponsorRepo implements ICrud<Sponsor, Integer> {
         return INSTANCE;
     }
 
-    /// SQL STATEMENTS ////
+    //SQL STATEMENTS ////
 
-    public static final String SPONSOR_SAVE_TO_DB = """
+    private static final String SPONSOR_SAVE_TO_DB = """
             INSERT INTO Sponsor (Name, Surname, DonatorType) 
             VALUES (?,?,?);  
             """;
-    public static final String SPONSOR_FIND_ALL = """
+    private static final String SPONSOR_FIND_ALL = """
             SELECT ID, Name, Surname, DonatorType FROM  Sponsor 
             """;
-    public static final String SPONSOR_DELETE_BY_ID = """
+    private static final String SPONSOR_DELETE_BY_ID = """
             DELETE FROM Sponsor 
             WHERE Sponsor.ID = ?; 
             """;
-    public static final String SPONSOR_UPDATE = """
+    private static final String SPONSOR_UPDATE = """
             UPDATE Sponsor SET 
             Name = ?,
             Surname = ?, 
